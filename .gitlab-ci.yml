@@ -1,0 +1,44 @@
+image: node:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - apt-get update
+  - apt-get install -y rsync openssh-client
+  - npm install
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  script:
+    - npm run build
+
+test:
+  stage: test
+  script:
+    - npm run test
+
+deploy:
+  stage: deploy
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -H daarib.com >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - cat ~/.ssh/known_hosts  # Debugging: Display the known_hosts content
+    - ssh-add -L  # Debugging: List the added keys
+  script:
+    - ls -la ./scripts  # Debugging: Ensure the deploy script is in the correct directory
+    - chmod +x ./scripts/deploy.sh  # Ensure the deploy script has execute permissions
+    - ./scripts/deploy.sh  # Run the deploy script
+  only:
+    - main  # Only deploy from the master branch

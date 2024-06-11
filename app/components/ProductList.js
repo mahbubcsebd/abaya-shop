@@ -1,7 +1,7 @@
 // import products from "@/app/data/products.json";
-"use client"
+'use client';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { IoOptions } from 'react-icons/io5';
 import ProductCard from './ProductCard';
@@ -14,14 +14,11 @@ const ProductList = ({ products, categories }) => {
     );
 
     const pathname = usePathname();
-    const searchParams = useSearchParams();
+    // const searchParams = useSearchParams();
 
     const handleCategoryClick = (categoryId) => {
         setSelectedCategory(categoryId);
     };
-
-    console.log('activeCategories--------------------------------' + activeCategories);
-
 
     return (
         <div
@@ -45,9 +42,10 @@ const ProductList = ({ products, categories }) => {
                                     <Link
                                         href={`?search=${category.slug}`}
                                         type="button"
-                                        className={`px-6 py-2 text-base font-normal text-gray-700 border border-gray-700 rounded-md ${
-                                            searchParams === 'category.slug' ? "bg-gray-700 text-white" : ""
-                                        }`}
+                                        className={`px-6 py-2 text-base font-normal text-gray-700 border border-gray-700 rounded-md`}
+                                        // className={`px-6 py-2 text-base font-normal text-gray-700 border border-gray-700 rounded-md ${
+                                        //     searchParams === 'category.slug' ? "bg-gray-700 text-white" : ""
+                                        // }`}
                                     >
                                         {category.name}
                                     </Link>

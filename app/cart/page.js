@@ -7,20 +7,38 @@ import Image from 'next/image';
 import { useContext, useState } from 'react';
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import { RxCross1 } from 'react-icons/rx';
+import { toast } from 'react-toastify';
 import Input from '../components/form/Input';
 import PaymentRadio from "../components/form/PaymentRadio";
 import RadioButton from '../components/form/RadioButton';
 import { ProductContext } from '../context/cartContext';
+import { orderPost } from "../utils/order";
 
 const Cart = () => {
-    const [selectedValue, setSelectedValue] = useState('inside-dhaka');
-    const [selectedPayment, setSelectedPayment] = useState('cod');
+    const [selectedValue, setSelectedValue] = useState('inside_dhaka');
+    const [selectedPayment, setSelectedPayment] = useState('cash');
     const [shippingCost, setShippingCost] = useState(80);
 
     const { state, dispatch } = useContext(ProductContext);
     const { cartItems, cartTotal } = state;
 
     const total = cartTotal + shippingCost;
+
+    const orderedProduct = [];
+    cartItems.map((product) =>
+        orderedProduct.push({
+            product_id: product.id,
+            quantity: product.quantity,
+            price: product.sale_price,
+            size_id: product.size_id,
+            color_id: product.color_id,
+            total: product.quantity * product.sale_price,
+        })
+    );
+
+    const totalQuantity = cartItems.reduce((accumulator, currentObject) => {
+        return accumulator + currentObject.quantity;
+    }, 0);
 
     const handleRemoveFromCart = (id) => {
         dispatch({
@@ -49,11 +67,11 @@ const Cart = () => {
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
 
-        if (event.target.value === 'inside-dhaka') {
+        if (event.target.value === 'inside_dhaka') {
             setShippingCost(80);
         }
 
-        if (event.target.value === 'outside-dhaka') {
+        if (event.target.value === 'outside_dhaka') {
             setShippingCost(120);
         }
     };
@@ -62,14 +80,28 @@ const Cart = () => {
         setSelectedPayment(event.target.value);
     };
 
-    const submitHandler = (event) => {
+    const submitHandler = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
 
-        const orderData = { ...data, total };
-        console.log(orderData);
-    }
+        const orderData = {
+            ...data,
+            products: orderedProduct,
+            delivery_fee: shippingCost,
+            total_quantity: totalQuantity,
+            total_amount: cartTotal,
+        };
+
+        const mydata = await orderPost(JSON.stringify(orderData));
+
+        dispatch({
+            type: 'CLEAR_CART'
+        });
+        toast.success(`Order Placed Successful`, {
+            position: 'bottom-right',
+        });
+    };
 
 
 
@@ -95,20 +127,20 @@ const Cart = () => {
                                     <div className="flex flex-col lg:flex-row items-start lg:items-center gap-[10px] lg:gap-4 mb-[30px]">
                                         <RadioButton
                                             label="ঢাকার ভিতরে"
-                                            value="inside-dhaka"
-                                            name="delivery-area"
+                                            value="inside_dhaka"
+                                            name="delivery_location"
                                             checked={
-                                                selectedValue === 'inside-dhaka'
+                                                selectedValue === 'inside_dhaka'
                                             }
                                             onChange={handleChange}
                                         />
                                         <RadioButton
                                             label="ঢাকার বাহিরে"
-                                            value="outside-dhaka"
-                                            name="delivery-area"
+                                            value="outside_dhaka"
+                                            name="delivery_location"
                                             checked={
                                                 selectedValue ===
-                                                'outside-dhaka'
+                                                'outside_dhaka'
                                             }
                                             onChange={handleChange}
                                         />
@@ -117,7 +149,7 @@ const Cart = () => {
                                         <Input
                                             label="আপনার নাম"
                                             type="text"
-                                            name="fname"
+                                            name="name"
                                             placeholder="John Doe"
                                         />
                                         <Input
@@ -149,83 +181,119 @@ const Cart = () => {
                                         <span className="w-9 h-[2px] bg-[#086CD9] lg:hidden"></span>
                                     </h2>
                                     <div className="p-[30px] rounded-[20px] bg-white">
-                                        <ul className="grid gap-3">
-                                            {cartItems.map((product) => (
-                                                <li key={product.id}>
-                                                    <div className="flex items-start gap-[14px]">
-                                                        <div>
-                                                            <div className="w-[84px] h-[90px] lg:w-[110px] lg:h-[120px] rounded-[10px] overflow-hidden">
-                                                                <Image
-                                                                    className="object-cover w-full h-full"
-                                                                    src={
-                                                                        product.preview_image
-                                                                    }
-                                                                    alt={
-                                                                        product.name
-                                                                    }
-                                                                    width={84}
-                                                                    height={84}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex-auto">
-                                                            <h2 className="text-sm lg:text-xl text-gray-900 font-semibold mb-[14px]">
-                                                                {product.name}
-                                                            </h2>
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="flex justify-between items-center w-[90px] h-[30px] border bg-[#EAEAEA] rounded-md px-[3px]">
-                                                                    <button onClick={()=> handleDecrement(product.id)} className="flex items-center justify-center w-6 h-6 text-xs text-gray-600 bg-white rounded-md quantity-decrement">
-                                                                        <FaMinus />
-                                                                    </button>
-                                                                    <div className="text-xs text-gray-600 quantity">
-                                                                        {product.quantity}
+                                        {cartItems.length > 0 ? (
+                                            <div>
+                                                <ul className="grid gap-3">
+                                                    {cartItems.map(
+                                                        (product) => (
+                                                            <li
+                                                                key={product.id}
+                                                            >
+                                                                <div className="flex items-start gap-[14px]">
+                                                                    <div>
+                                                                        <div className="w-[84px] h-[90px] lg:w-[110px] lg:h-[120px] rounded-[10px] overflow-hidden">
+                                                                            <Image
+                                                                                className="object-cover w-full h-full"
+                                                                                src={
+                                                                                    product.preview_image
+                                                                                }
+                                                                                alt={
+                                                                                    product.name
+                                                                                }
+                                                                                width={
+                                                                                    84
+                                                                                }
+                                                                                height={
+                                                                                    84
+                                                                                }
+                                                                            />
+                                                                        </div>
                                                                     </div>
-                                                                    <button onClick={()=> handleIncrement(product.id)} className="flex items-center justify-center w-6 h-6 text-xs text-gray-600 bg-white rounded-md quantity-increment">
-                                                                        <FaPlus />
-                                                                    </button>
+                                                                    <div className="flex-auto">
+                                                                        <h2 className="text-sm lg:text-xl text-gray-900 font-semibold mb-[14px]">
+                                                                            {
+                                                                                product.name
+                                                                            }
+                                                                        </h2>
+                                                                        <div className="flex items-center gap-3">
+                                                                            <div className="flex justify-between items-center w-[90px] h-[30px] border bg-[#EAEAEA] rounded-md px-[3px]">
+                                                                                <button
+                                                                                type="button"
+                                                                                    onClick={() =>
+                                                                                        handleDecrement(
+                                                                                            product.id
+                                                                                        )
+                                                                                    }
+                                                                                    className="flex items-center justify-center w-6 h-6 text-xs text-gray-600 bg-white rounded-md quantity-decrement"
+                                                                                >
+                                                                                    <FaMinus />
+                                                                                </button>
+                                                                                <div className="text-xs text-gray-600 quantity">
+                                                                                    {
+                                                                                        product.quantity
+                                                                                    }
+                                                                                </div>
+                                                                                <button
+                                                                                type="button"
+                                                                                    onClick={() =>
+                                                                                        handleIncrement(
+                                                                                            product.id
+                                                                                        )
+                                                                                    }
+                                                                                    className="flex items-center justify-center w-6 h-6 text-xs text-gray-600 bg-white rounded-md quantity-increment"
+                                                                                >
+                                                                                    <FaPlus />
+                                                                                </button>
+                                                                            </div>
+                                                                            <p className="font-semibold text-gray-500 tex-sm lg:text-xl">
+                                                                                <RxCross1 />
+                                                                            </p>
+                                                                            <p className="text-sm lg:text-lg text-[#F93754] font-semibold">
+                                                                                ৳
+                                                                                {
+                                                                                    product.sale_price
+                                                                                }
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <p className="font-semibold text-gray-500 tex-sm lg:text-xl">
-                                                                    <RxCross1 />
-                                                                </p>
-                                                                <p className="text-sm lg:text-lg text-[#F93754] font-semibold">
-                                                                    ৳
-                                                                    {
-                                                                        product.sale_price
-                                                                    }
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <hr className="mt-3 border-gray-400 lg:mt-5 lg:mb-2" />
-                                        <ul className="">
-                                            <li className="flex items-center justify-between py-3 border-b border-gray-400 lg:py-5">
-                                                <p className="text-sm font-semibold text-gray-700 lg:text-lg">
-                                                    মোট :
-                                                </p>
-                                                <p className="text-sm font-semibold text-gray-700 lg:text-lg">
-                                                    {cartTotal} টাকা
-                                                </p>
-                                            </li>
-                                            <li className="flex items-center justify-between py-3 border-b border-gray-400 lg:py-5">
-                                                <p className="text-sm font-semibold text-gray-700 lg:text-lg">
-                                                    ডেলিভারি ফি :
-                                                </p>
-                                                <p className="text-sm font-semibold text-gray-700 lg:text-lg">
-                                                    {shippingCost} টাকা
-                                                </p>
-                                            </li>
-                                            <li className="flex items-center justify-between pt-3 lg:pt-5">
-                                                <p className="text-sm font-semibold text-gray-700 lg:text-lg">
-                                                    সর্বমোট :
-                                                </p>
-                                                <p className="text-sm font-semibold text-gray-700 lg:text-lg">
-                                                    {total} টাকা
-                                                </p>
-                                            </li>
-                                        </ul>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                </ul>
+                                                <hr className="mt-3 border-gray-400 lg:mt-5 lg:mb-2" />
+                                                <ul className="">
+                                                    <li className="flex items-center justify-between py-3 border-b border-gray-400 lg:py-5">
+                                                        <p className="text-sm font-semibold text-gray-700 lg:text-lg">
+                                                            মোট :
+                                                        </p>
+                                                        <p className="text-sm font-semibold text-gray-700 lg:text-lg">
+                                                            {cartTotal} টাকা
+                                                        </p>
+                                                    </li>
+                                                    <li className="flex items-center justify-between py-3 border-b border-gray-400 lg:py-5">
+                                                        <p className="text-sm font-semibold text-gray-700 lg:text-lg">
+                                                            ডেলিভারি ফি :
+                                                        </p>
+                                                        <p className="text-sm font-semibold text-gray-700 lg:text-lg">
+                                                            {shippingCost} টাকা
+                                                        </p>
+                                                    </li>
+                                                    <li className="flex items-center justify-between pt-3 lg:pt-5">
+                                                        <p className="text-sm font-semibold text-gray-700 lg:text-lg">
+                                                            সর্বমোট :
+                                                        </p>
+                                                        <p className="text-sm font-semibold text-gray-700 lg:text-lg">
+                                                            {total} টাকা
+                                                        </p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        ) : (
+                                            <p className="text-base font-semibold text-gray-800">
+                                                কার্টে কোন প্রডাক্ট নেই
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="cart-payment-option">
@@ -235,17 +303,17 @@ const Cart = () => {
                                     </h2>
                                     <div class="grid gap-3 mb-[30px]">
                                         <PaymentRadio
-                                            value="cod"
+                                            value="cash"
                                             icon={cod}
-                                            name="payment"
+                                            name="payment_method"
                                             imgClass="w-[160px] lg:w-auto"
-                                            checked={selectedPayment === 'cod'}
+                                            checked={selectedPayment === 'cash'}
                                             onChange={handlePaymentChange}
                                         />
                                         <PaymentRadio
                                             value="bkash"
                                             icon={bkash}
-                                            name="payment"
+                                            name="payment_method"
                                             imgClass="w-[74px] lg:w-auto"
                                             checked={
                                                 selectedPayment === 'bkash'
@@ -255,7 +323,7 @@ const Cart = () => {
                                         <PaymentRadio
                                             value="nagad"
                                             icon={nagad}
-                                            name="payment"
+                                            name="payment_method"
                                             imgClass="w-[78px] lg:w-auto"
                                             checked={
                                                 selectedPayment === 'nagad'

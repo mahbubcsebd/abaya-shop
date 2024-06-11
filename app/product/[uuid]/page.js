@@ -5,7 +5,6 @@ import Review from "@/app/components/Review";
 import { getProduct } from "@/app/utils/getProduct";
 
 const ProductDetails = async ({params}) => {
-
     const product = await getProduct(params.uuid);
     const {
         id,

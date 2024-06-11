@@ -103,4 +103,3 @@ Provide contact information for the project maintainers or team.
 - Name: UiBarn
 - Email: uibarnltd@gmail.com
 - GitHub: https://gitlab.com/uibucket
-# abaya-shop

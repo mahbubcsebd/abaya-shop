@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useContext, useState } from 'react';
+import { BsCart3 } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import { ProductContext } from '../context/cartContext';
 import ProductCounter from './ProductCounter';
@@ -21,9 +22,10 @@ const ProductOrder = ({ product }) => {
         (attr) => attr.attribute_group.name === 'Size'
     ).attributes;
 
-    const [selectedSize, setSelectedSize] = useState(sizes.name);
-    const [selectedColor, setSelectedColor] = useState(colors.name);
+    const [selectedSize, setSelectedSize] = useState(sizes[0].name);
+    const [selectedColor, setSelectedColor] = useState(colors[0].name);
     const [productCount, setProductCount] = useState(1);
+
 
     const handleSizeChange = (event) => {
         setSelectedSize(event.target.value);
@@ -33,14 +35,23 @@ const ProductOrder = ({ product }) => {
         setSelectedColor(event.target.value);
     };
 
-    const handleAddToCart = (event) => {
-        event.preventDefault();
+    const getSelectedSizeId = (sizeName) => {
+        return sizes.find((size) => size.name === sizeName)?.id;
+    };
+    const getSelectedColorId = (colorName) => {
+        return colors.find((color) => color.name === colorName)?.id;
+    };
 
+    const handleAddToCart = (event) => {
+        if(event.type === "submit"){
+            event.preventDefault();
+        }
+        console.log(event)
         const selectedProduct = {
             ...product,
-            size: selectedSize,
-            color: selectedColor,
-            quantity: productCount, // Use 'quantity' for consistency
+            size_id: getSelectedSizeId(selectedSize),
+            color_id: getSelectedColorId(selectedColor),
+            quantity: productCount,
         };
 
         if (!isInCart) {
@@ -115,7 +126,6 @@ const ProductOrder = ({ product }) => {
                                 className="hidden"
                                 checked={selectedColor === color.name}
                                 onChange={handleColorChange}
-                                defaultChecked={index == 1}
                             />
                             <label
                                 htmlFor={color.name}
@@ -138,18 +148,22 @@ const ProductOrder = ({ product }) => {
                     productCount={productCount}
                     setProductCount={setProductCount}
                 />
+                <button
+                    type="submit"
+                    className={`flex items-center gap-2 px-[30px] py-4 text-gray-900 border border-gray-900 hover:text-white hover:bg-gray-900 transition duration-150 rounded-md ${
+                        isFormValid ? '' : 'cursor-not-allowed'
+                    }`}
+                >
+                    <BsCart3 />
+                    কার্টে যোগ করুন
+                </button>
                 <Link
                     href="/cart"
+                    onClick={handleAddToCart}
                     className="flex items-center gap-2 px-[30px] py-4 text-white bg-gray-900 rounded-md"
                 >
                     অর্ডার করুন
                 </Link>
-                <button
-                    type="submit"
-                    className={`flex items-center gap-2 px-[30px] py-4 text-gray-900 border border-gray-900 hover:text-white hover:bg-gray-900 transition duration-150 rounded-md ${isFormValid ? '' : 'cursor-not-allowed'}`}
-                >
-                    কার্ট করুন
-                </button>
             </div>
         </form>
     );

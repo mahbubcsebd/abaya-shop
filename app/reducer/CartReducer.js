@@ -83,10 +83,14 @@ const cartReducer = (state, action) => {
               cartTotal: calculateCartTotal(decrementedItems),
           };
       case CLEAR_CART:
+        const clearCartItems = []
+        const clearCartTotal = 0
+        saveToLocalStorage(JSON.stringify(clearCartItems));
+        // saveToLocalStorage(JSON.stringify(decrementedItems));
           return {
               ...state,
-              cartItems: [],
-              cartTotal: 0,
+              cartItems: clearCartItems,
+              cartTotal: clearCartTotal,
           };
       case SET_CART:
           if (typeof window === undefined) return;

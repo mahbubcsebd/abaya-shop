@@ -28,8 +28,8 @@ const ProductSlider = ({ product }) => {
                     modules={[FreeMode, Navigation, Thumbs]}
                     className="w-full h-full"
                 >
-                    {product_images.map((orginalImg) => (
-                        <SwiperSlide key={orginalImg.uuid}>
+                    {product_images.map((orginalImg, index) => (
+                        <SwiperSlide key={index}>
                             <Image
                                 src={orginalImg.original_url}
                                 alt="hero slider"
@@ -51,8 +51,8 @@ const ProductSlider = ({ product }) => {
                     modules={[FreeMode, Navigation, Thumbs]}
                     className="mySwiper"
                 >
-                    {product_images.map((thumbImg) => (
-                        <SwiperSlide key={thumbImg.uuid}>
+                    {product_images.map((thumbImg, index) => (
+                        <SwiperSlide key={index}>
                             <Image
                                 src={thumbImg.preview_url}
                                 alt="hero slider"

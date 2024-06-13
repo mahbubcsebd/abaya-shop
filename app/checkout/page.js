@@ -6,7 +6,7 @@ import nagad from "@/app/assets/icons/nagad.svg";
 import Image from 'next/image';
 import { useContext, useState } from 'react';
 import { FaMinus, FaPlus } from "react-icons/fa6";
-import { RxCross1 } from 'react-icons/rx';
+import { RxCross1, RxCrossCircled } from 'react-icons/rx';
 import { toast } from 'react-toastify';
 import Input from '../components/form/Input';
 import PaymentRadio from "../components/form/PaymentRadio";
@@ -14,10 +14,15 @@ import RadioButton from '../components/form/RadioButton';
 import { ProductContext } from '../context/cartContext';
 import { orderPost } from "../utils/orderPost";
 
-const Cart = () => {
+const Checkout = () => {
     const [selectedValue, setSelectedValue] = useState('inside_dhaka');
     const [selectedPayment, setSelectedPayment] = useState('cash');
     const [shippingCost, setShippingCost] = useState(80);
+
+    const [nameWarningMessage, setNameWarningMessage] = useState(null);
+    // const [emailWarningMessage, setEmailWarningMessage] = useState(null);
+    const [phoneWarningMessage, setPhoneWarningMessage] = useState(null);
+    const [addressWarningMessage, setAddressWarningMessage] = useState(null);
 
     const { state, dispatch } = useContext(ProductContext);
     const { cartItems, cartTotal } = state;
@@ -85,6 +90,26 @@ const Cart = () => {
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
 
+        const {name, email, address, phone} = data;
+
+        if (name === '' || name === null || name === undefined) {
+            setNameWarningMessage('Name is required');
+        } else {
+            setNameWarningMessage(null);
+        }
+
+        if (phone === '' || phone === null || phone === undefined) {
+            setPhoneWarningMessage('Phone is required');
+        } else {
+            setPhoneWarningMessage(null);
+        }
+
+        if (address === '' || address === null || address === undefined) {
+            setAddressWarningMessage('Address is required');
+        } else {
+            setAddressWarningMessage(null);
+        }
+
         const orderData = {
             ...data,
             products: orderedProduct,
@@ -93,14 +118,37 @@ const Cart = () => {
             total_amount: cartTotal,
         };
 
-        const mydata = await orderPost(JSON.stringify(orderData));
+        try {
+            const response = await orderPost(JSON.stringify(orderData));
+            if (response.ok) {
+                const responseData = await response.json();
 
-        dispatch({
-            type: 'CLEAR_CART'
-        });
-        toast.success(`Order Placed Successful`, {
-            position: 'bottom-right',
-        });
+                if (responseData.success) {
+                    toast.success(`${responseData.success}`, {
+                        position: 'bottom-right',
+                    });
+
+                    dispatch({
+                        type: 'CLEAR_CART',
+                    });
+                }
+
+                // else {
+                //     toast.error(
+                //         `Failed to submit review ${responseData.message}`,
+                //         {
+                //             position: 'bottom-right',
+                //         }
+                //     );
+                // }
+
+                setSuccessMessage(responseData.success);
+            } else {
+                throw new Error('Failed to submit review');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+        }
     };
 
 
@@ -151,12 +199,24 @@ const Cart = () => {
                                             type="text"
                                             name="name"
                                             placeholder="John Doe"
+                                            warningMessage={
+                                                nameWarningMessage
+                                                    ? nameWarningMessage
+                                                    : null
+                                            }
+                                            required
                                         />
                                         <Input
                                             label="মোবাইল নাম্বার"
                                             type="number"
                                             name="phone"
                                             placeholder="018xxxxxxxx"
+                                            warningMessage={
+                                                phoneWarningMessage
+                                                    ? phoneWarningMessage
+                                                    : null
+                                            }
+                                            required
                                         />
                                         <Input
                                             label="ইমেইল এড্রেস"
@@ -164,12 +224,20 @@ const Cart = () => {
                                             name="email"
                                             optional="Optional"
                                             placeholder="demo@gmail.com"
+                                            // warningMessage={emailWarningMessage ? emailWarningMessage : null}
+                                            required
                                         />
                                         <Input
                                             label="পুরো ঠিকানা"
                                             type="text"
                                             name="address"
                                             placeholder="বাসা নাম্বার, রোড নাম্বার, এলাকার নাম, থানা, জেলা"
+                                            warningMessage={
+                                                addressWarningMessage
+                                                    ? addressWarningMessage
+                                                    : null
+                                            }
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -185,11 +253,23 @@ const Cart = () => {
                                             <div>
                                                 <ul className="grid gap-3">
                                                     {cartItems.map(
-                                                        (product) => (
+                                                        (
+                                                            product,
+                                                            index,
+                                                            cartArray
+                                                        ) => (
                                                             <li
                                                                 key={product.id}
                                                             >
-                                                                <div className="flex items-start gap-[14px]">
+                                                                <div
+                                                                    className={`flex items-start gap-[14px] ${
+                                                                        index ===
+                                                                        cartArray.length -
+                                                                            1
+                                                                            ? 'border-b-0'
+                                                                            : 'pb-3 border-b border-gray-400'
+                                                                    }`}
+                                                                >
                                                                     <div>
                                                                         <div className="w-[84px] h-[90px] lg:w-[110px] lg:h-[120px] rounded-[10px] overflow-hidden">
                                                                             <Image
@@ -210,15 +290,15 @@ const Cart = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex-auto">
-                                                                        <h2 className="text-sm lg:text-xl text-gray-900 font-semibold mb-[14px]">
+                                                                        <h2 className="text-sm lg:text-lg text-gray-900 font-semibold mb-[10px] ellipsis-2 h-[54px]">
                                                                             {
                                                                                 product.name
                                                                             }
                                                                         </h2>
-                                                                        <div className="flex items-center gap-3">
+                                                                        <div className="flex items-center gap-3 mb-2">
                                                                             <div className="flex justify-between items-center w-[90px] h-[30px] border bg-[#EAEAEA] rounded-md px-[3px]">
                                                                                 <button
-                                                                                type="button"
+                                                                                    type="button"
                                                                                     onClick={() =>
                                                                                         handleDecrement(
                                                                                             product.id
@@ -234,7 +314,7 @@ const Cart = () => {
                                                                                     }
                                                                                 </div>
                                                                                 <button
-                                                                                type="button"
+                                                                                    type="button"
                                                                                     onClick={() =>
                                                                                         handleIncrement(
                                                                                             product.id
@@ -254,6 +334,31 @@ const Cart = () => {
                                                                                     product.sale_price
                                                                                 }
                                                                             </p>
+                                                                        </div>
+                                                                        <div className="flex items-center justify-between">
+                                                                            <div className="flex items-center gap-1">
+                                                                                <p className="text-[9px] bg-gray-900 text-white py-[2px] rounded-lg leading-[12px] px-2">
+                                                                                    {
+                                                                                        product.color_name
+                                                                                    }
+                                                                                </p>
+                                                                                <p className="text-[9px] bg-gray-900 text-white py-[2px] rounded-lg leading-[12px] px-2">
+                                                                                    {
+                                                                                        product.size_name
+                                                                                    }
+                                                                                </p>
+                                                                            </div>
+                                                                            <button
+                                                                                onClick={() =>
+                                                                                    handleRemoveFromCart(
+                                                                                        product.id
+                                                                                    )
+                                                                                }
+                                                                                type="button"
+                                                                                className="text-lg text-gray-400"
+                                                                            >
+                                                                                <RxCrossCircled />
+                                                                            </button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -349,4 +454,4 @@ const Cart = () => {
     );
 };
 
-export default Cart;
+export default Checkout;

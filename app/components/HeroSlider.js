@@ -1,8 +1,5 @@
 'use client'
 
-import hero1 from "@/app/assets/images/hero-1.jpg";
-import hero2 from "@/app/assets/images/hero-2.jpg";
-import hero3 from "@/app/assets/images/hero-3.jpg";
 import Image from "next/image";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,7 +14,7 @@ import './hero.css';
 // import required modules
 import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
 
-const HeroSlider = () => {
+const HeroSlider = ({images}) => {
     return (
         <div
             id="hero"
@@ -45,34 +42,17 @@ const HeroSlider = () => {
                             ]}
                             className="mySwiper"
                         >
-                            <SwiperSlide>
-                                <Image
-                                    src={hero1}
-                                    alt="hero slider"
-                                    className="object-cover w-full h-full"
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <Image
-                                    src={hero2}
-                                    alt="hero slider"
-                                    className="object-cover w-full h-full"
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <Image
-                                    src={hero3}
-                                    alt="hero slider"
-                                    className="object-cover w-full h-full"
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <Image
-                                    src={hero1}
-                                    alt="hero slider"
-                                    className="object-cover w-full h-full"
-                                />
-                            </SwiperSlide>
+                            {images.map((img) => (
+                                <SwiperSlide key={img.id}>
+                                    <Image
+                                        src={img.image_url}
+                                        alt={img.title}
+                                        width={100}
+                                        height={100}
+                                        className="object-cover w-full h-full"
+                                    />
+                                </SwiperSlide>
+                            ))}
                         </Swiper>
                     </div>
                 </div>

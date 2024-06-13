@@ -1,6 +1,5 @@
 import circle from '@/app/assets/icons/circle-tick.svg';
 import Image from 'next/image';
-import Pagination from './Pagination';
 import RatingReadOnly from './RatingReadOnly';
 
 const ClientFeedback = ({ reviews }) => {
@@ -55,9 +54,9 @@ const ClientFeedback = ({ reviews }) => {
                     </div>
                 ))}
             </div>
-            <div className="flex justify-end pt-6">
+            {/* <div className="flex justify-end pt-6">
                 <Pagination />
-            </div>
+            </div> */}
         </div>
     );
 };

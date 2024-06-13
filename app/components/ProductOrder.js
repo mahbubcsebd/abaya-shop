@@ -52,6 +52,8 @@ const ProductOrder = ({ product }) => {
             size_id: getSelectedSizeId(selectedSize),
             color_id: getSelectedColorId(selectedColor),
             quantity: productCount,
+            color_name: selectedColor,
+            size_name: selectedSize,
         };
 
         if (!isInCart) {
@@ -158,7 +160,7 @@ const ProductOrder = ({ product }) => {
                     কার্টে যোগ করুন
                 </button>
                 <Link
-                    href="/cart"
+                    href="/checkout"
                     onClick={handleAddToCart}
                     className="flex items-center gap-2 px-[30px] py-4 text-white bg-gray-900 rounded-md"
                 >

@@ -1,26 +1,21 @@
 
-import Hero from "./components/Hero";
+import HeroSlider from "./components/HeroSlider";
 import ProductList from "./components/ProductList";
 import { getAllCategories } from "./utils/categories";
+import { getHeroImage } from "./utils/getHeroImage";
 import { getAllProduct } from "./utils/getProduct";
 
 const Home = async () => {
-<<<<<<< HEAD
-=======
 
->>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
     const categories = await getAllCategories();
     const products = await getAllProduct();
+    const heroImages = await getHeroImage();
 
     return (
         <>
-            <Hero />
+            <HeroSlider images={heroImages.data} />
             <ProductList
-<<<<<<< HEAD
-                products={products.data}
-=======
                 products={products}
->>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
                 categories={categories.data}
             />
         </>

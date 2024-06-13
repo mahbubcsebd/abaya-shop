@@ -71,7 +71,7 @@ const HeaderCart = () => {
                     Cart
                 </span>
                 {state.cartItems.length > 0 && (
-                    <span className="w-[10px] h-[10px] rounded-full bg-[#FF2848] text-[7px] text-white flex justify-center items-center absolute top-1 left-4">
+                    <span className="w-[10px] h-[10px] rounded-full bg-[#FF2848] text-[8px] text-white flex justify-center items-center absolute top-1 left-4">
                         {state.cartItems.length}
                     </span>
                 )}
@@ -145,7 +145,7 @@ const HeaderCart = () => {
                             </div>
                             <div className="pt-5">
                                 <Link
-                                    href="/cart"
+                                    href="/checkout"
                                     className="flex justify-center items-center text-center gap-2 px-[30px] py-4 text-base text-white bg-gray-900 rounded-md w-full"
                                     onClick={handleShow}
                                 >

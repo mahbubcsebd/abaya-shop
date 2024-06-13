@@ -11,6 +11,9 @@ const ReviewForm = ({id}) => {
     const [rating, setRating] = useState(0);
     const [successMessage, setSuccessMessage] = useState([]);
     const [images, setImages] = useState([]);
+    const [commentMsg, setCommentMsg] = useState(null);
+    const [nameMsg, setNameMsg] = useState(null);
+    const [emailMsg, setEmailMsg] = useState(null);
 
     const handleRatingChange = (value) => {
         setRating(value);
@@ -32,6 +35,26 @@ const ReviewForm = ({id}) => {
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
 
+        const { name, email, review } = data;
+
+        if (name === '' || name === null || name === undefined) {
+            setNameMsg('Name is required');
+        } else {
+            setNameMsg(null);
+        }
+
+        if (email === '' || email === null || email === undefined) {
+            setEmailMsg('Email is required');
+        } else {
+            setEmailMsg(null);
+        }
+
+        if (review === '' || review === null || review === undefined) {
+            setCommentMsg('Comment is required');
+        } else {
+            setCommentMsg(null);
+        }
+
         const reviewData = { ...data, rating, product_id: id, images };
         console.log(reviewData);
 
@@ -47,14 +70,16 @@ const ReviewForm = ({id}) => {
                     toast.success(`${responseData.success}`, {
                         position: 'bottom-right',
                     });
-                } else {
-                    toast.error(
-                        `Failed to submit review ${responseData.message}`,
-                        {
-                            position: 'bottom-right',
-                        }
-                    );
                 }
+
+                // else {
+                //     toast.error(
+                //         `Failed to submit review ${responseData.message}`,
+                //         {
+                //             position: 'bottom-right',
+                //         }
+                //     );
+                // }
 
                 setSuccessMessage(responseData.success);
             } else {
@@ -96,8 +121,15 @@ const ReviewForm = ({id}) => {
                             name="review"
                             id="review-comment"
                             rows="5"
+                            required
                             className="block w-full px-6 py-4 3xl:px-[18px] 3xl:py-[22px] border border-[#D0D5DD] text-gray-700 ring-1 ring-inset ring-[#D0D5DD] focus:ring-1 focus:ring-blue-900 placeholder:text-gray-400 placeholder:text-base outline-none rounded-md input-shadow"
                         />
+                        {commentMsg && (
+                            <small className="mt-1 text-red-500">
+                                {commentMsg}
+                            </small>
+
+                        ) }
                     </div>
 
                     {/* Photo Upload */}
@@ -117,12 +149,14 @@ const ReviewForm = ({id}) => {
                             label="আপনার নাম"
                             type="text"
                             name="name"
+                            warningMessage={nameMsg ? nameMsg : null}
                             value={formData.name}
                         />
                         <Input
                             label="আপনার ইমেইল"
                             type="email"
                             name="email"
+                            warningMessage={emailMsg ? emailMsg : null}
                             value={formData.email}
                         />
                     </div>

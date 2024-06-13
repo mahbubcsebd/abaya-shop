@@ -1,21 +1,12 @@
 // import products from "@/app/data/products.json";
 "use client"
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-<<<<<<< HEAD
-import { useState } from 'react';
-=======
-import {useContext, useEffect, useState} from 'react';
->>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
+import { useContext, useEffect, useState } from 'react';
 import { IoOptions } from 'react-icons/io5';
-import ProductCard from './ProductCard';
-import { getAllProduct } from "./../utils/getProduct";
+import { RxCross2 } from 'react-icons/rx';
 import SearchContext from "../reducer/SearchContext";
+import { getAllProduct } from "./../utils/getProduct";
+import ProductCard from './ProductCard';
 
-<<<<<<< HEAD
-const ProductList = ({ products, categories }) => {
-    const [selectedCategory, setSelectedCategory] = useState(null);
-=======
 
 const ProductList = ({ products, categories }) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -23,19 +14,10 @@ const ProductList = ({ products, categories }) => {
     const [productItem, setProductItem] = useState(products.data);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
->>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
 
     const activeCategories = categories.filter(
         (cat) => cat.is_featured === true
     );
-<<<<<<< HEAD
-
-    const pathname = usePathname();
-    // const searchParams = useSearchParams();
-
-    const handleCategoryClick = (categoryId) => {
-        setSelectedCategory(categoryId);
-=======
     const { searchQuery } = useContext(SearchContext);
     useEffect(() => {
         const fetchProducts = async () => {
@@ -53,12 +35,12 @@ const ProductList = ({ products, categories }) => {
         fetchProducts();
     }, [searchQuery]);
 
-    const handleCategoryLoadMoreClick = async (categoryName,page=0) => {
+    const handleCategoryLoadMoreClick = async (categoryName, page=0) => {
         setLoading(true);
         try {
             setSelectedCategory(categoryName)
             let prevPage = page + 1;
-            let productData = await getAllProduct(categoryName,prevPage);
+            let productData = await getAllProduct(null, categoryName, prevPage);
             if (productData.data.length > 0) {
                 if (categoryName){
                         setProductItem(productData.data)
@@ -76,7 +58,6 @@ const ProductList = ({ products, categories }) => {
         } finally {
             setLoading(false);
         }
->>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
     };
 
 
@@ -99,70 +80,68 @@ const ProductList = ({ products, categories }) => {
                         <ul className="flex items-center flex-wrap gap-[18px]">
                             {categories.map((category) => (
                                 <li key={category.id}>
-<<<<<<< HEAD
-                                    <Link
-                                        href={`?search=${category.name}`}
-                                        type="button"
-                                        className={`px-6 py-2 text-base font-normal text-gray-700 border border-gray-700 rounded-md`}
-=======
                                     <button
-                                        onClick={() => handleCategoryLoadMoreClick(category.name)}
+                                        onClick={() =>
+                                            handleCategoryLoadMoreClick(
+                                                category.name
+                                            )
+                                        }
                                         type="button"
-                                        className={`px-6 py-2 text-base font-normal text-gray-700 border border-gray-700 rounded-md ${selectedCategory == category.name ? "bg-gray-700 text-white" : ""}`}
->>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
-                                        // className={`px-6 py-2 text-base font-normal text-gray-700 border border-gray-700 rounded-md ${
-                                        //     searchParams === 'category.slug' ? "bg-gray-700 text-white" : ""
-                                        // }`}
+                                        className={`px-6 py-2 text-base font-normal text-gray-700 border border-gray-700 rounded-md ${
+                                            selectedCategory == category.name
+                                                ? 'bg-gray-700 text-white'
+                                                : ''
+                                        }`}
                                     >
                                         {category.name}
-<<<<<<< HEAD
-                                    </Link>
-=======
                                     </button>
->>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
                                 </li>
                             ))}
+                            <li>
+                                <button
+                                    onClick={() =>
+                                        handleCategoryLoadMoreClick(null)
+                                    }
+                                    type="button"
+                                    className={`text-base font-normal text-gray-700 rounded-md flex items-center gap-1`}
+                                >
+                                    মুছুন<RxCross2 />
+                                </button>
+                            </li>
                         </ul>
                     </div>
                     {productItem.length > 0 ? (
-                    <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px]" >
-                        {productItem.map((product) => {
-                            return (
-                                <ProductCard
-                                    key={product.id}
-                                    product={product}
-                                />
-                            );
-                        })}
-                    </div>
-<<<<<<< HEAD
-                    <div className="flex justify-center pt-10">
-                        <button
-                            type="button"
-                            className="text-base md:text-[20px] text-gray-900 font-normal border-2 border-gray-900 px-6 py-4 rounded-lg md:px-[30px] md:py-[20px] hover:bg-gray-900 hover:text-white transition duration-150"
-                        >
-                            আরো দেখুন
-                        </button>
-                    </div>
-=======
+                        <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px]">
+                            {productItem.map((product) => {
+                                return (
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
+                                    />
+                                );
+                            })}
+                        </div>
                     ) : (
-                          <div>No products found</div>
-                        )}
+                        <div>No products found</div>
+                    )}
 
                     <div className="flex justify-center pt-10">
                         {hasMore && (
-                        <button
-                            onClick={() => handleCategoryLoadMoreClick(null,selectedProducts.meta.current_page)}
-                            disabled={loading}
-                            type="button"
-                            className="text-base md:text-[20px] text-gray-900 font-normal border-2 border-gray-900 px-6 py-4 rounded-lg md:px-[30px] md:py-[20px] hover:bg-gray-900 hover:text-white transition duration-150"
-                        >
-                            {loading ? 'Loading...' : 'আরো দেখুন'}
-                        </button>
+                            <button
+                                onClick={() =>
+                                    handleCategoryLoadMoreClick(
+                                        null,
+                                        selectedProducts.meta.current_page
+                                    )
+                                }
+                                disabled={loading}
+                                type="button"
+                                className="text-base md:text-[20px] text-gray-900 font-normal border-2 border-gray-900 px-6 py-4 rounded-lg md:px-[30px] md:py-[20px] hover:bg-gray-900 hover:text-white transition duration-150"
+                            >
+                                {loading ? 'Loading...' : 'আরো দেখুন'}
+                            </button>
                         )}
                     </div>
-
->>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
                 </div>
             </div>
         </div>

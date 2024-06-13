@@ -2,7 +2,6 @@
 "use client"
 import { useContext, useEffect, useState } from 'react';
 import { IoOptions } from 'react-icons/io5';
-import { RxCross2 } from 'react-icons/rx';
 import SearchContext from "../reducer/SearchContext";
 import { getAllProduct } from "./../utils/getProduct";
 import ProductCard from './ProductCard';
@@ -97,7 +96,7 @@ const ProductList = ({ products, categories }) => {
                                     </button>
                                 </li>
                             ))}
-                            <li>
+                            {/* <li>
                                 <button
                                     onClick={() =>
                                         handleCategoryLoadMoreClick(null)
@@ -107,7 +106,7 @@ const ProductList = ({ products, categories }) => {
                                 >
                                     মুছুন<RxCross2 />
                                 </button>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     {productItem.length > 0 ? (

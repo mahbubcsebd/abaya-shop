@@ -23,7 +23,7 @@ const ProductRating = ({ rating, handleRatingChange }) => {
                     </div>
                 }
             />
-            {/* <p>Your rating: {rating} stars</p> */}
+            <p>Your rating: {rating} stars</p>
         </div>
     );
 };

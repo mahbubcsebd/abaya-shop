@@ -1,13 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from "react";
-import { toast } from "react-toastify";
-import { ProductContext } from "../context/cartContext";
+<<<<<<< HEAD
+=======
+import {toast} from "react-toastify";
+import {useContext} from "react";
+import {ProductContext} from "../context/cartContext";
+>>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
 
 
 const ProductCard = ({ product }) => {
     const {uuid, name, preview_image, sale_price} = product;
 
+<<<<<<< HEAD
+=======
     const { state, dispatch } = useContext(ProductContext);
 
     const isInCart = state.cartItems.some((item) => item.id === product.id);
@@ -38,6 +43,7 @@ const ProductCard = ({ product }) => {
             );
         }
     };
+>>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
 
     return (
         <div className="overflow-hidden rounded-lg product-card">
@@ -64,8 +70,12 @@ const ProductCard = ({ product }) => {
                     দাম : ৳{sale_price}
                 </p>
                 <Link
-                    href="/checkout"
+<<<<<<< HEAD
+                    href={`/product/${uuid}`}
+=======
+                    href="/cart"
                     onClick={handleAddToCart}
+>>>>>>> 38a2c2171e85843aaab8fc9426f070184aa242f7
                     className="w-full block text-center py-[10px] px-5 md:py-3 text-[10px] md:text-base font-normal text-white bg-gray-900 rounded-lg product-button"
                 >
                     অর্ডার করুন

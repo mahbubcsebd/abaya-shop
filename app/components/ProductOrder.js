@@ -158,7 +158,7 @@ const ProductOrder = ({ product }) => {
                     কার্টে যোগ করুন
                 </button>
                 <Link
-                    href="/checkout"
+                    href="/cart"
                     onClick={handleAddToCart}
                     className="flex items-center gap-2 px-[30px] py-4 text-white bg-gray-900 rounded-md"
                 >

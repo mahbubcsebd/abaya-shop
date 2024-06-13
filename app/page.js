@@ -5,13 +5,15 @@ import { getAllCategories } from "./utils/categories";
 import { getAllProduct } from "./utils/getProduct";
 
 const Home = async () => {
-const categories = await getAllCategories();
-  const products = await getAllProduct();
+
+    const categories = await getAllCategories();
+    const products = await getAllProduct();
+
     return (
         <>
             <Hero />
             <ProductList
-                products={products.data}
+                products={products}
                 categories={categories.data}
             />
         </>

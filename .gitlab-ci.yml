@@ -5,19 +5,21 @@ stages:
   - test
   - deploy
 
-before_script:
-  - apt-get update
-  - apt-get install -y rsync openssh-client
-  - npm install
-
 cache:
   paths:
     - node_modules/
+
+before_script:
+  - apt-get update && apt-get install -y rsync openssh-client
+  - npm install
 
 build:
   stage: build
   script:
     - npm run build
+  artifacts:
+    paths:
+      - .next
 
 test:
   stage: test
@@ -27,18 +29,34 @@ test:
 deploy:
   stage: deploy
   before_script:
+    - apt-get update && apt-get install -y rsync openssh-client
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - ssh-keyscan -H daarib.com >> ~/.ssh/known_hosts
+    - echo "Current known_hosts file content:"
+    - cat ~/.ssh/known_hosts || true
+    - |
+      for i in {1..5}; do
+        echo "Attempt $i: Running ssh-keyscan for 156.67.218.148..."
+        ssh-keyscan -H 156.67.218.148 >> ~/.ssh/known_hosts && break
+        echo "ssh-keyscan failed, retrying in 5 seconds..."
+        sleep 5
+      done
     - chmod 644 ~/.ssh/known_hosts
-    - cat ~/.ssh/known_hosts  # Debugging: Display the known_hosts content
-    - ssh-add -L  # Debugging: List the added keys
+    - echo "Updated known_hosts file content:"
+    - cat ~/.ssh/known_hosts
+    - ssh-add -L
   script:
-    - ls -la ./scripts  # Debugging: Ensure the deploy script is in the correct directory
-    - chmod +x ./scripts/deploy.sh  # Ensure the deploy script has execute permissions
-    - ./scripts/deploy.sh  # Run the deploy script
+    - echo "Contents of ~/.ssh directory:"
+    - ls -la ~/.ssh
+    - echo "Contents of ~/.ssh/known_hosts file:"
+    - cat ~/.ssh/known_hosts
+    - echo "Ensure deploy.sh script is executable"
+    - ls -la ./scripts
+    - chmod +x ./scripts/deploy.sh
+    - echo "Running deploy.sh script"
+    - ./scripts/deploy.sh
   only:
-    - main  # Only deploy from the master branch
+    - main

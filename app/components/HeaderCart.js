@@ -145,7 +145,7 @@ const HeaderCart = () => {
                             </div>
                             <div className="pt-5">
                                 <Link
-                                    href="/cart"
+                                    href="/checkout"
                                     className="flex justify-center items-center text-center gap-2 px-[30px] py-4 text-base text-white bg-gray-900 rounded-md w-full"
                                     onClick={handleShow}
                                 >

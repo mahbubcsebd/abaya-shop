@@ -12,7 +12,7 @@ const RatingReadOnly = ({ rating }) => {
             <Rating
                 initialRating={rating}
                 readonly
-                fractions={2}
+                fractions={10}
                 emptySymbol={
                     <div className={`${starClass}`}>
                         <FaRegStar />

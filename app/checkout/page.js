@@ -12,12 +12,17 @@ import Input from '../components/form/Input';
 import PaymentRadio from "../components/form/PaymentRadio";
 import RadioButton from '../components/form/RadioButton';
 import { ProductContext } from '../context/cartContext';
-import { orderPost } from "../utils/order";
+import { orderPost } from "../utils/orderPost";
 
-const Cart = () => {
+const Checkout = () => {
     const [selectedValue, setSelectedValue] = useState('inside_dhaka');
     const [selectedPayment, setSelectedPayment] = useState('cash');
     const [shippingCost, setShippingCost] = useState(80);
+
+    const [nameWarningMessage, setNameWarningMessage] = useState(null);
+    // const [emailWarningMessage, setEmailWarningMessage] = useState(null);
+    const [phoneWarningMessage, setPhoneWarningMessage] = useState(null);
+    const [addressWarningMessage, setAddressWarningMessage] = useState(null);
 
     const { state, dispatch } = useContext(ProductContext);
     const { cartItems, cartTotal } = state;
@@ -85,6 +90,24 @@ const Cart = () => {
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
 
+        const {name, email, address, phone} = data;
+
+        if (name === '' || name === null || name === undefined){
+            setNameWarningMessage('Name is required');
+        }
+
+        // if (email === '' || email === null || email === undefined){
+        //     setEmailWarningMessage('Email is required');
+        // }
+
+        if (phone === '' || phone === null || phone === undefined){
+            setPhoneWarningMessage('Phone is required');
+        }
+
+        if (address === '' || address === null || address === undefined){
+            setAddressWarningMessage('Address is required');
+        }
+
         const orderData = {
             ...data,
             products: orderedProduct,
@@ -93,14 +116,35 @@ const Cart = () => {
             total_amount: cartTotal,
         };
 
-        const mydata = await orderPost(JSON.stringify(orderData));
+        try {
+            const response = await orderPost(JSON.stringify(orderData));
+            if (response.ok) {
+                const responseData = await response.json();
 
-        dispatch({
-            type: 'CLEAR_CART'
-        });
-        toast.success(`Order Placed Successful`, {
-            position: 'bottom-right',
-        });
+                if (responseData.success) {
+                    toast.success(`${responseData.success}`, {
+                        position: 'bottom-right',
+                    });
+
+                    dispatch({
+                        type: 'CLEAR_CART',
+                    });
+                } else {
+                    toast.error(
+                        `Failed to submit review ${responseData.message}`,
+                        {
+                            position: 'bottom-right',
+                        }
+                    );
+                }
+
+                setSuccessMessage(responseData.success);
+            } else {
+                throw new Error('Failed to submit review');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+        }
     };
 
 
@@ -151,12 +195,16 @@ const Cart = () => {
                                             type="text"
                                             name="name"
                                             placeholder="John Doe"
+                                            warningMessage={nameWarningMessage ? nameWarningMessage : null}
+                                            required
                                         />
                                         <Input
                                             label="মোবাইল নাম্বার"
                                             type="number"
                                             name="phone"
                                             placeholder="018xxxxxxxx"
+                                            warningMessage={phoneWarningMessage ? phoneWarningMessage : null}
+                                            required
                                         />
                                         <Input
                                             label="ইমেইল এড্রেস"
@@ -164,12 +212,16 @@ const Cart = () => {
                                             name="email"
                                             optional="Optional"
                                             placeholder="demo@gmail.com"
+                                            // warningMessage={emailWarningMessage ? emailWarningMessage : null}
+                                            required
                                         />
                                         <Input
                                             label="পুরো ঠিকানা"
                                             type="text"
                                             name="address"
                                             placeholder="বাসা নাম্বার, রোড নাম্বার, এলাকার নাম, থানা, জেলা"
+                                            warningMessage={addressWarningMessage ? addressWarningMessage : null}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -301,7 +353,7 @@ const Cart = () => {
                                         পেমেন্ট অপশন
                                         <span className="w-9 h-[2px] bg-[#086CD9] lg:hidden"></span>
                                     </h2>
-                                    <div class="grid gap-3 mb-[30px]">
+                                    <div className="grid gap-3 mb-[30px]">
                                         <PaymentRadio
                                             value="cash"
                                             icon={cod}
@@ -349,4 +401,4 @@ const Cart = () => {
     );
 };
 
-export default Cart;
+export default Checkout;

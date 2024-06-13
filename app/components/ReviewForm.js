@@ -1,61 +1,141 @@
-import DropBox from './Dropbox';
+"use client"
+
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { reviewPost } from '../utils/reviewPost';
+import Dropbox from './Dropbox';
 import Input from './form/Input';
 import ProductRating from './form/ProductRating';
 
-const ReviewForm = () => {
-  return (
-      <div className="review-form-section pb-20">
-          <form id="review-form">
-              <div className="grid gap-6">
-                  <div className="review-rating-box bg-white border border-[#D0D5DD] rounded-lg">
-                      <div className="grid justify-center text-center p-[27px]">
-                          <p className="text-sm text-gray-700 font-semibold mb-3">
-                              আপনার রেটিং :
-                          </p>
-                          <ProductRating />
-                      </div>
-                  </div>
-                  <div className="">
-                      <label
-                          htmlFor="review-comment"
-                          className="block text-gray-700 text-sm font-semibold mb-[6px]"
-                      >
-                          আপনার মন্তব্য
-                      </label>
-                      <textarea
-                          name="review-comment"
-                          id="review-comment"
-                          rows="5"
-                          className="block w-full px-6 py-4 3xl:px-[18px] 3xl:py-[22px] border border-[#D0D5DD] text-gray-700 ring-1 ring-inset ring-[#D0D5DD] focus:ring-1 focus:ring-blue-900 placeholder:text-gray-400 placeholder:text-base outline-none rounded-md input-shadow"
-                      ></textarea>
-                  </div>
-                  <div className="flex items-center gap-4">
-                      <div>
-                          <label
-                              htmlFor="review-comment"
-                              className="block text-gray-700 text-sm font-semibold mb-[6px] min-w-[170px]"
-                          >
-                              ফটো আপলোড করুন :
-                          </label>
-                      </div>
-                      <DropBox />
-                  </div>
-                  <Input
-                      label="আপনার নাম"
-                      type="text"
-                      name="fname"
-                      placeholder="John Doe"
-                  />
-                  <Input
-                      label="আপনার নাম"
-                      type="email"
-                      name="fname"
-                      placeholder="demo@gmail.com"
-                  />
-              </div>
-          </form>
-      </div>
-  );
-}
+const ReviewForm = ({id}) => {
+    const [rating, setRating] = useState(0);
+    const [successMessage, setSuccessMessage] = useState([]);
+    const [images, setImages] = useState([]);
 
-export default ReviewForm
+    const handleRatingChange = (value) => {
+        setRating(value);
+    };
+
+    const [formData, setFormData] = useState({
+        review: '',
+        name: '',
+        email: '',
+    });
+
+    const handlePhotoUpload = (uploadedPhotos) => {
+        // setFormData({ ...formData, images: uploadedPhotos });
+        console.log("hello");
+    };
+
+    const submitHandler = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        const reviewData = { ...data, rating, product_id: id, images };
+        console.log(reviewData);
+
+        try {
+            const response = await reviewPost(JSON.stringify(reviewData));
+
+            // Check for successful response
+            if (response.ok) {
+                const responseData = await response.json();
+
+                // console.log('Success message:', responseData.success);
+                if (responseData.success){
+                    toast.success(`${responseData.success}`, {
+                        position: 'bottom-right',
+                    });
+                } else {
+                    toast.error(
+                        `Failed to submit review ${responseData.message}`,
+                        {
+                            position: 'bottom-right',
+                        }
+                    );
+                }
+
+                setSuccessMessage(responseData.success);
+            } else {
+                throw new Error('Failed to submit review');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+        }
+    };
+
+    return (
+        <div className="pb-20 review-form-section">
+            <form
+                id="review-form"
+                onSubmit={submitHandler}
+            >
+                <div className="grid gap-6">
+                    <div className="review-rating-box bg-white border border-[#D0D5DD] rounded-lg">
+                        <div className="grid justify-center text-center p-[27px]">
+                            <p className="mb-3 text-sm font-semibold text-gray-700">
+                                আপনার রেটিং :
+                            </p>
+                            <ProductRating
+                                handleRatingChange={handleRatingChange}
+                                rating={rating}
+                                value={formData.rating}
+                                onChange={handleRatingChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="">
+                        <label
+                            htmlFor="review-comment"
+                            className="block text-gray-700 text-sm font-semibold mb-[6px]"
+                        >
+                            আপনার মন্তব্য
+                        </label>
+                        <textarea
+                            name="review"
+                            id="review-comment"
+                            rows="5"
+                            className="block w-full px-6 py-4 3xl:px-[18px] 3xl:py-[22px] border border-[#D0D5DD] text-gray-700 ring-1 ring-inset ring-[#D0D5DD] focus:ring-1 focus:ring-blue-900 placeholder:text-gray-400 placeholder:text-base outline-none rounded-md input-shadow"
+                        />
+                    </div>
+
+                    {/* Photo Upload */}
+                    <div className="flex items-center gap-4">
+                        <div>
+                            <label
+                                htmlFor="review-image"
+                                className="block text-gray-700 text-sm font-semibold mb-[6px] min-w-[170px]"
+                            >
+                                ফটো আপলোড করুন :
+                            </label>
+                        </div>
+                        <Dropbox setImages={(images) => setImages(images)} />
+                    </div>
+                    <div className="grid gap-6 mb-6">
+                        <Input
+                            label="আপনার নাম"
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                        />
+                        <Input
+                            label="আপনার ইমেইল"
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                        />
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    className="flex justify-center items-center gap-[6px] text-base text-white font-medium px-6 py-4 bg-black rounded-md"
+                >
+                    রিভিউ সাবমিট করুন
+                </button>
+            </form>
+        </div>
+    );
+};
+
+export default ReviewForm;

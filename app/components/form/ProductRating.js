@@ -1,16 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa6';
 import Rating from 'react-rating';
 
-const ProductRating = () => {
-    const [rating, setRating] = useState(0);
-
-    const handleRatingChange = (value) => {
-        setRating(value);
-    };
-
+const ProductRating = ({ rating, handleRatingChange }) => {
     const starClass = 'text-4xl text-[#FF9E2C] mx-3';
 
     return (

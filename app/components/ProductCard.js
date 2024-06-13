@@ -1,10 +1,43 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useContext } from "react";
+import { toast } from "react-toastify";
+import { ProductContext } from "../context/cartContext";
 
 
 const ProductCard = ({ product }) => {
     const {uuid, name, preview_image, sale_price} = product;
 
+    const { state, dispatch } = useContext(ProductContext);
+
+    const isInCart = state.cartItems.some((item) => item.id === product.id);
+
+    const handleAddToCart = (event) => {
+        if(event.type === "submit"){
+            event.preventDefault();
+        }
+        const selectedProduct = {
+            ...product,
+            quantity: 1,
+        };
+
+        if (!isInCart) {
+            dispatch({
+                type: 'ADD_TO_CART',
+                payload: selectedProduct,
+            });
+            toast.success(`Added ${product.name} to Cart!`, {
+                position: 'bottom-right',
+            });
+        } else {
+            toast.error(
+                `The product ${product.name} has already been added to the cart`,
+                {
+                    position: 'bottom-right',
+                }
+            );
+        }
+    };
 
     return (
         <div className="overflow-hidden rounded-lg product-card">
@@ -31,7 +64,8 @@ const ProductCard = ({ product }) => {
                     দাম : ৳{sale_price}
                 </p>
                 <Link
-                    href={`/product/${uuid}`}
+                    href="/checkout"
+                    onClick={handleAddToCart}
                     className="w-full block text-center py-[10px] px-5 md:py-3 text-[10px] md:text-base font-normal text-white bg-gray-900 rounded-lg product-button"
                 >
                     অর্ডার করুন

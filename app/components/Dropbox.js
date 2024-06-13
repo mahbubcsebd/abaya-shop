@@ -24,8 +24,9 @@ const thumbInner = {
     overflow: 'hidden',
 };
 
-export function Previews(props) {
+export function Previews({ inputName }) {
     const [files, setFiles] = useState([]);
+    // console.log("files------------------------------" + files)
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
             'image/*': [],
@@ -51,9 +52,8 @@ export function Previews(props) {
                     src={file.preview}
                     width={100}
                     height={100}
-                    className='w-full h-full object-cover'
-                    alt=''
-                    // Revoke data uri after image is loaded
+                    className="object-cover w-full h-full"
+                    alt=""
                     onLoad={() => {
                         URL.revokeObjectURL(file.preview);
                     }}
@@ -63,14 +63,16 @@ export function Previews(props) {
     ));
 
     useEffect(() => {
-        // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
         return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
     }, []);
 
     return (
-        <section className="dropbox flex-auto">
+        <section className="flex-auto dropbox">
             <div {...getRootProps({ className: 'dropzone' })}>
-                <input {...getInputProps()} />
+                <input
+                    name={inputName}
+                    {...getInputProps()}
+                />
                 <div className="bg-white border border-[#D0D5DD] rounded-lg flex-auto p-10 cursor-pointer">
                     <div className="flex flex-col gap-[6px] justify-center items-center text-center">
                         <button className="text-2xl text-[#DC2B2B] text-center">
@@ -80,7 +82,9 @@ export function Previews(props) {
                             ফটো আপলোড করুন
                         </p>
                     </div>
-            <aside className='grid grid-cols-4 gap-3 pt-4'>{thumbs}</aside>
+                    <aside className="grid grid-cols-4 gap-3 pt-4">
+                        {thumbs}
+                    </aside>
                 </div>
             </div>
         </section>
@@ -88,10 +92,8 @@ export function Previews(props) {
 }
 
 
-const Dropbox = () => {
-  return (
-    <Previews />
-  )
+const Dropbox = ({inputName}) => {
+  return <Previews inputName={inputName} />;
 }
 
 export default Dropbox

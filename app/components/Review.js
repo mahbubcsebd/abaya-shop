@@ -8,8 +8,8 @@ const Review = ({ id, showReview }) => {
         >
             <div className="product-review-area">
                 <div className="container">
-                    <div className="flex items-center justify-between mb-16">
-                        <h3 className="text-2xl font-semibold text-gray-800">
+                    <div className="flex items-center justify-between mb-[30px] md:mb-16">
+                        <h3 className="text-base font-semibold text-gray-800 md:text-2xl">
                             পণ্যের রিভিউ
                         </h3>
                         {/* <div className="flex items-center gap-2">

@@ -27,7 +27,7 @@ const ReviewForm = ({id}) => {
 
     const handlePhotoUpload = (uploadedPhotos) => {
         // setFormData({ ...formData, images: uploadedPhotos });
-        console.log("hello");
+        // console.log("hello");
     };
 
     const submitHandler = async (event) => {
@@ -56,7 +56,7 @@ const ReviewForm = ({id}) => {
         }
 
         const reviewData = { ...data, rating, product_id: id, images };
-        console.log(reviewData);
+        // console.log(reviewData);
 
         try {
             const response = await reviewPost(JSON.stringify(reviewData));
@@ -133,7 +133,7 @@ const ReviewForm = ({id}) => {
                     </div>
 
                     {/* Photo Upload */}
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-[6px] md:gap-4 md:items-center md:flex-row">
                         <div>
                             <label
                                 htmlFor="review-image"
@@ -163,7 +163,7 @@ const ReviewForm = ({id}) => {
                 </div>
                 <button
                     type="submit"
-                    className="flex justify-center items-center gap-[6px] text-base text-white font-medium px-6 py-4 bg-black rounded-md"
+                    className="flex justify-center items-center gap-[6px] text-base text-white font-medium px-6 py-4 bg-black rounded-md w-full text-center sm:w-auto"
                 >
                     রিভিউ সাবমিট করুন
                 </button>

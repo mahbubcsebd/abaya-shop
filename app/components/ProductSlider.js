@@ -20,7 +20,7 @@ const ProductSlider = ({ product }) => {
     const {product_images} = product;
     return (
         <div className="product-slider">
-            <div className="w-full h-[570px] rounded-[30px] overflow-hidden mb-4">
+            <div className="w-full h-[335px] lg:h-[570px] lg:rounded-[30px] overflow-hidden mb-4">
                 <Swiper
                     spaceBetween={10}
                     navigation={true}
@@ -56,8 +56,8 @@ const ProductSlider = ({ product }) => {
                             <Image
                                 src={thumbImg.preview_url}
                                 alt="hero slider"
-                                width={100}
-                                height={100}
+                                width={150}
+                                height={150}
                                 className="w-full h-full"
                             />
                         </SwiperSlide>

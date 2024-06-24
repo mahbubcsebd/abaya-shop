@@ -26,7 +26,6 @@ const thumbInner = {
 
 export function Previews({ inputName }) {
     const [files, setFiles] = useState([]);
-    // console.log("files------------------------------" + files)
     const { getRootProps, getInputProps } = useDropzone({
         accept: {
             'image/*': [],

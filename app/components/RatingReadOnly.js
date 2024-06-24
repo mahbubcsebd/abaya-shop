@@ -5,7 +5,7 @@ import Rating from 'react-rating';
 
 const RatingReadOnly = ({ rating }) => {
 
-    const starClass = 'text-xl text-[#FF9E2C] mx-1';
+    const starClass = 'text[10px] md:text-xl text-[#FF9E2C] mx-[2px] md:mx-1';
 
     return (
         <div>

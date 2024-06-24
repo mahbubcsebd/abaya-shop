@@ -12,10 +12,10 @@ const ClientFeedback = ({ reviews }) => {
                         key={review.id}
                         className="single-review border-b border-gray-400 pb-[30px]"
                     >
-                        <div className="flex items-center justify-between mb-5">
-                            <div className="flex items-center gap-6">
+                        <div className="flex flex-col justify-between gap-2 mb-5 sm:gap-0 sm:items-center sm:flex-row">
+                            <div className="flex items-center justify-between gap-6 sm:justify-start">
                                 <RatingReadOnly rating={review.rating} />
-                                <p className="text-lg text-gray-600 font-medium flex items-center gap-[6px] capitalize">
+                                <p className="text-lg text-gray-600 font-medium flex items-center gap-[6px] capitalize order-first md:order-last">
                                     <span>
                                         <Image
                                             src={circle}
@@ -34,11 +34,11 @@ const ClientFeedback = ({ reviews }) => {
                             <p className="text-lg font-medium text-gray-700">
                                 {review.review}
                             </p>
-                            <div className="grid grid-cols-5 gap-5 pt-6">
+                            <div className="grid grid-cols-4 gap-5 pt-6 md:grid-cols-5">
                                 {review.images.map((img, index) => (
                                     <div
                                         key={index}
-                                        className="w-full h-[145px]"
+                                        className="w-full h-[100px] md:h-[145px]"
                                     >
                                         <Image
                                             src={img}

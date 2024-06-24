@@ -40,7 +40,6 @@ const cartReducer = (state, action) => {
           }
 
           saveToLocalStorage(JSON.stringify(updatedCartItems));
-          console.log(updatedCartItems);
           return {
               ...state,
               cartItems: updatedCartItems,

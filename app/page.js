@@ -5,8 +5,11 @@ import { getAllCategories } from "./utils/categories";
 import { getHeroImage } from "./utils/getHeroImage";
 import { getAllProduct } from "./utils/getProduct";
 
-const Home = async () => {
+export const metadata = {
+    title: 'Abaya | Home',
+};
 
+const Home = async () => {
     const categories = await getAllCategories();
     const products = await getAllProduct();
     const heroImages = await getHeroImage();

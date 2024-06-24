@@ -47,8 +47,8 @@ const HeroSlider = ({images}) => {
                                     <Image
                                         src={img.image_url}
                                         alt={img.title}
-                                        width={100}
-                                        height={100}
+                                        width={900}
+                                        height={500}
                                         className="object-cover w-full h-full"
                                     />
                                 </SwiperSlide>

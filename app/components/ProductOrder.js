@@ -46,7 +46,6 @@ const ProductOrder = ({ product }) => {
         if(event.type === "submit"){
             event.preventDefault();
         }
-        console.log(event)
         const selectedProduct = {
             ...product,
             size_id: getSelectedSizeId(selectedSize),
@@ -78,13 +77,13 @@ const ProductOrder = ({ product }) => {
 
     return (
         <form onSubmit={handleAddToCart}>
-            <div className="flex items-center mb-5">
-                <div className="min-w-[90px]">
+            <div className="flex items-center gap-[10px] md:gap-0 mb-5">
+                <div className="md:min-w-[90px]">
                     <p className="text-base font-semibold text-gray-700 ">
                         Size :
                     </p>
                 </div>
-                <ul className="flex items-center gap-[18px]">
+                <ul className="flex items-center gap-2 lg:gap-[18px] flex-wrap">
                     {sizes.map((size) => (
                         <li key={size.id}>
                             <input
@@ -99,7 +98,7 @@ const ProductOrder = ({ product }) => {
                             />
                             <label
                                 htmlFor={size.name}
-                                className={`px-6 py-4 text-base font-medium border rounded-md size-varient block cursor-pointer ${
+                                className={`px-4 py-3 lg:px-6 lg:py-4 text-base font-medium border rounded-md size-varient block cursor-pointer ${
                                     selectedSize === size.name
                                         ? 'bg-gray-600 text-white'
                                         : 'text-gray-600 border-gray-600 hover:text-white hover:bg-gray-700'
@@ -111,13 +110,13 @@ const ProductOrder = ({ product }) => {
                     ))}
                 </ul>
             </div>
-            <div className="flex items-center">
-                <div className="min-w-[90px]">
+            <div className="flex items-center gap-[10px] md:gap-0 mb-5">
+                <div className="md:min-w-[90px]">
                     <p className="text-base font-semibold text-gray-700 ">
                         Color :
                     </p>
                 </div>
-                <ul className="flex items-center gap-[18px]">
+                <ul className="flex items-center gap-2 lg:gap-[18px]">
                     {colors.map((color, index) => (
                         <li key={color.id}>
                             <input
@@ -131,7 +130,7 @@ const ProductOrder = ({ product }) => {
                             />
                             <label
                                 htmlFor={color.name}
-                                className={`px-6 py-4 text-base font-medium border rounded-md color-varient block cursor-pointer ${
+                                className={`px-4 py-3 lg:px-6 lg:py-4 text-base font-medium border rounded-md size-varient block cursor-pointer ${
                                     selectedColor === color.name
                                         ? 'bg-gray-600 text-white'
                                         : 'text-gray-600 border-gray-600 hover:text-white hover:bg-gray-700'
@@ -152,7 +151,7 @@ const ProductOrder = ({ product }) => {
                 />
                 <button
                     type="submit"
-                    className={`flex items-center gap-2 px-[30px] py-4 text-gray-900 border border-gray-900 hover:text-white hover:bg-gray-900 transition duration-150 rounded-md ${
+                    className={`hidden md:flex items-center gap-2 px-[30px] py-4 text-gray-900 border border-gray-900 hover:text-white hover:bg-gray-900 transition duration-150 rounded-md ${
                         isFormValid ? '' : 'cursor-not-allowed'
                     }`}
                 >

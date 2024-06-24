@@ -1,11 +1,19 @@
+"use client"
+
 import logo from '@/app/assets/icons/logo.svg';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import HeaderCart from './HeaderCart';
 import HeaderSearch from './HeaderSearch';
 
 const Header = () => {
+    const [showSearchModal, setShowSearchModal] = useState(false);
+
+    const handleSearch = () => {
+        setShowSearchModal(!showSearchModal);
+    }
 
   return (
       <header
@@ -16,11 +24,14 @@ const Header = () => {
               <div className="container">
                   <div className="flex items-center justify-between header-content">
                       <div className="lg:hidden">
-                          <button className="text-2xl">
+                          <button
+                              onClick={handleSearch}
+                              className="text-2xl"
+                          >
                               <FiSearch />
                           </button>
                       </div>
-                      <div className="header-logo">
+                      <div className={`header-logo ${showSearchModal ? 'hidden' : 'block'}`}>
                           <Link href="/">
                               <Image
                                   src={logo}
@@ -29,7 +40,10 @@ const Header = () => {
                               />
                           </Link>
                       </div>
-                      <HeaderSearch />
+                      <HeaderSearch
+                          showSearchModal={showSearchModal}
+                          setShowSearchModal={setShowSearchModal}
+                      />
                       <div>
                           <HeaderCart />
                       </div>

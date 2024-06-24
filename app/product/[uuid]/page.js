@@ -1,7 +1,19 @@
 import ProductOrder from "@/app/components/ProductOrder";
 import ProductSlider from "@/app/components/ProductSlider";
 import ReviewBox from "@/app/components/ReviewBox";
+import SocialShare from "@/app/components/SocialShare";
 import { getProduct } from "@/app/utils/getProduct";
+
+export async function generateMetadata({ params }) {
+    const product = await getProduct(params.uuid);
+
+    const { name } = product.data;
+
+    return {
+        title: `Abaya | ${name}`,
+    };
+}
+
 
 const ProductDetails = async ({params}) => {
     const product = await getProduct(params.uuid);
@@ -26,25 +38,28 @@ const ProductDetails = async ({params}) => {
     const remainingArray = attributes.filter((attr) => attr.attribute_group.name !== 'Color' && attr.attribute_group.name !== 'Size');
 
   return (
-      <div className="py-20 product-details-page">
+      <div className="py-6 md:py-20 product-details-page">
           <div className="product-details-area">
               <div className="container">
-                  <div className="grid grid-cols-2 gap-[30px]">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-[30px]">
                       <div className="product-details-gallary">
                           <ProductSlider product={product.data} />
                       </div>
                       <div className="product-details-content">
                           <div>
-                              <h2 className="text-4xl leading-snug text-gray-900 font-medium mb-[18px]">
+                              <h2 className="text-2xl lg:text-4xl leading-snug text-gray-900 font-medium mb-[18px]">
                                   {name}
                               </h2>
-                              <p className="mb-5 text-3xl font-semibold text-gray-800 product-price">
+                              <p className="mb-5 font-semibold text-gray-800 text-2x lg:text-3xl product-price">
                                   দাম : ৳{sale_price}
                               </p>
                           </div>
                           <ProductOrder product={product.data} />
                           <hr className="my-6 border-gray-400" />
-                          <div className="w-3/4">
+                          <div className="my-6">
+                              <SocialShare />
+                          </div>
+                          <div className="md:w-3/4">
                               <h3 className="text-xl text-gray-900 font-medium mb-[30px]">
                                   Product Details :
                               </h3>

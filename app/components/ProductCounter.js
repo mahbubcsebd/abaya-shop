@@ -1,11 +1,24 @@
 "use client"
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa6';
 import { ProductContext } from '../context/cartContext';
 
 
-const ProductCounter = ({ id, productCount, setProductCount }) => {
+const ProductCounter = ({
+    id,
+    productCount,
+    setProductCount,
+    stock,
+    setShowStockMsg,
+    productStock,
+    showStock,
+    incrementDisable,
+    setIncrementDisable,
+}) => {
+    // const [incrementDisable, setIncrementDisable] = useState(false);
+    const [decrementDisable, setDecrementDisable] = useState(false);
+
     const { state, dispatch } = useContext(ProductContext);
 
     const handleRemoveFromCart = (id) => {
@@ -20,19 +33,29 @@ const ProductCounter = ({ id, productCount, setProductCount }) => {
     };
 
     const handleIncrementQuantity = (id) => {
-        setProductCount(()=>{
-            return productCount + 1
-        })
-        // dispatch({
-        //     type: 'INCREMENT_QUANTITY',
-        //     payload: id,
-        // });
+        setProductCount((prevProductCount) => {
+            const newProductCount = prevProductCount + 1;
+            if (newProductCount > productStock) {
+                return productStock;
+            }
+            return newProductCount;
+        });
+
+        if (productCount === productStock) {
+            setShowStockMsg(true);
+            setIncrementDisable(true);
+        }
     };
 
     const handleDecrementQuantity = (id) => {
-         if (productCount > 1) {
-             setProductCount(productCount - 1);
-         }
+        if (productCount > 1) {
+            setProductCount(productCount - 1);
+        }
+
+        if (productCount <= productStock) {
+            setShowStockMsg(false);
+            setIncrementDisable(false);
+        }
 
         // dispatch({
         //     type: 'DECREMENT_QUANTITY',
@@ -50,25 +73,33 @@ const ProductCounter = ({ id, productCount, setProductCount }) => {
     };
 
     return (
-        <div className="flex justify-between items-center w-[112px] h-14 border border-gray-400 rounded-md">
-            <button
-                type="button"
-                onClick={() => handleDecrementQuantity(id)}
-                className="h-full px-[14px] text-gray-600 quantity-decrement"
-            >
-                <FaMinus />
-            </button>
-            <div className="text-gray-600 text base quantity">
-                {productCount}
+        <>
+            <div className="flex justify-between items-center w-[112px] h-14 border border-gray-400 rounded-md">
+                <button
+                    type="button"
+                    onClick={() => handleDecrementQuantity(id)}
+                    disabled={decrementDisable}
+                    className="h-full px-[14px] text-gray-600 quantity-decrement"
+                >
+                    <FaMinus />
+                </button>
+                <div className="text-gray-600 text base quantity">
+                    {productCount}
+                </div>
+                <button
+                    type="button"
+                    onClick={() => handleIncrementQuantity(id)}
+                    disabled={
+                        incrementDisable ||
+                        stock < 1 ||
+                        (productStock < 1 && showStock)
+                    }
+                    className="h-full px-[14px] text-gray-600 quantity-increment"
+                >
+                    <FaPlus />
+                </button>
             </div>
-            <button
-                type="button"
-                onClick={() => handleIncrementQuantity(id)}
-                className="h-full px-[14px] text-gray-600 quantity-increment"
-            >
-                <FaPlus />
-            </button>
-        </div>
+        </>
     );
 };
 

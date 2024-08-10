@@ -1,11 +1,11 @@
-import circle from '@/app/assets/icons/circle-tick.svg';
 import Image from 'next/image';
+import { FaUserCircle } from 'react-icons/fa';
 import RatingReadOnly from './RatingReadOnly';
 
 const ClientFeedback = ({ reviews }) => {
 
     return (
-        <div className='container'>
+        <div className="container">
             <div className="grid gap-[30px]">
                 {reviews.map((review) => (
                     <div
@@ -14,16 +14,13 @@ const ClientFeedback = ({ reviews }) => {
                     >
                         <div className="flex flex-col justify-between gap-2 mb-5 sm:gap-0 sm:items-center sm:flex-row">
                             <div className="flex items-center justify-between gap-6 sm:justify-start">
-                                <RatingReadOnly rating={review.rating} />
-                                <p className="text-lg text-gray-600 font-medium flex items-center gap-[6px] capitalize order-first md:order-last">
+                                <p className="text-lg text-gray-600 font-medium flex items-center gap-[6px] capitalize mb-1">
                                     <span>
-                                        <Image
-                                            src={circle}
-                                            alt="circle"
-                                        />
+                                        <FaUserCircle />
                                     </span>{' '}
                                     {review.name}
                                 </p>
+                                <RatingReadOnly rating={review.rating} />
                             </div>
                             <p className="flex items-center gap-2 text-lg font-medium text-gray-500">
                                 <span className="inline-block w-[6px] h-[6px] rounded-full bg-gray-500"></span>{' '}

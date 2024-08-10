@@ -16,6 +16,11 @@
     }
 }
 
+html,
+body {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f4f4f4;
@@ -59,4 +64,29 @@ body {
 
 .swiper-pagination-bullet-active {
     background-color: #000 !important;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+    font-size: 24px !important;
+    color: #000 !important;
+}
+
+.delivary-area option:hover {
+    background-color: red !important;
+    color: #fff !important;
+}
+
+.delivary-area select option:hover {
+    background: red !important;
+    color: #fff;
+}
+
+.delivary-area select:focus > option {
+    background: red !important;
+    color: #fff;
+}
+
+.delivary-area select option::selection {
+    background: red !important;
 }

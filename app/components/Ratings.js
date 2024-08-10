@@ -1,5 +1,6 @@
 import borderImg from "@/app/assets/icons/border.svg";
 import Image from 'next/image';
+import Link from "next/link";
 import { BiEditAlt } from 'react-icons/bi';
 import { FaStar } from 'react-icons/fa';
 import RatingReadOnly from "./RatingReadOnly";
@@ -64,15 +65,16 @@ const Ratings = ({ reviewHandler, ratings }) => {
                                 alt="border img"
                             />
                         </div>
-                        <button
+                        <Link
+                            href="#product-review"
                             onClick={reviewHandler}
-                            className="hidden md:flex justify-center items-center gap-[6px] text-base text-white font-medium px-6 py-4 bg-black rounded-md"
+                            className="hidden md:flex justify-center items-center gap-[6px] text-base text-white font-medium px-6 py-4 bg-gray-900 border border-gray-900 rounded-md hover:bg-transparent hover:text-gray-900 transition duration-150"
                         >
                             <span className="inline-block text-xl">
                                 <BiEditAlt />
                             </span>
                             রিভিউ লিখুন
-                        </button>
+                        </Link>
                     </div>
                     <div className="flex items-center gap-5 md:gap-10 px-3 py-[18px] bg-white rounded-lg md:px-0 md:py-0 md:bg-transparent md:rounded-none">
                         <div>
@@ -177,15 +179,15 @@ const Ratings = ({ reviewHandler, ratings }) => {
                             </ul>
                         </div>
                     </div>
-                        <button
-                            onClick={reviewHandler}
-                            className="mt-5 md:hidden flex justify-center items-center gap-[6px] text-base text-white font-medium px-6 py-4 bg-black rounded-md"
-                        >
-                            <span className="inline-block text-xl">
-                                <BiEditAlt />
-                            </span>
-                            রিভিউ লিখুন
-                        </button>
+                    <button
+                        onClick={reviewHandler}
+                        className="mt-5 md:hidden flex justify-center items-center gap-[6px] text-base text-white font-medium px-6 py-4 bg-black rounded-md"
+                    >
+                        <span className="inline-block text-xl">
+                            <BiEditAlt />
+                        </span>
+                        রিভিউ লিখুন
+                    </button>
                 </div>
             </div>
         </div>

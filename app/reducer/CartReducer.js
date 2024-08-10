@@ -19,7 +19,7 @@ const CLEAR_CART = 'CLEAR_CART';
 const SET_CART = 'SET_CART';
 
 const calculateCartTotal = (cartItems) => {
-  return cartItems.reduce((total, item) => total + item.sale_price * item.quantity, 0);
+  return cartItems.reduce((total, item) => total + (item.sale_price > 0 ? item.sale_price : item.unit_price) * item.quantity, 0);
 };
 
 const cartReducer = (state, action) => {

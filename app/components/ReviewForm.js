@@ -7,7 +7,7 @@ import Dropbox from './Dropbox';
 import Input from './form/Input';
 import ProductRating from './form/ProductRating';
 
-const ReviewForm = ({id}) => {
+const ReviewForm = ({ id, setShowReview }) => {
     const [rating, setRating] = useState(0);
     const [successMessage, setSuccessMessage] = useState([]);
     const [images, setImages] = useState([]);
@@ -65,23 +65,12 @@ const ReviewForm = ({id}) => {
             if (response.ok) {
                 const responseData = await response.json();
 
-                // console.log('Success message:', responseData.success);
-                if (responseData.success){
+                if (responseData.success) {
+                    setShowReview(false)
                     toast.success(`${responseData.success}`, {
                         position: 'bottom-right',
                     });
                 }
-
-                // else {
-                //     toast.error(
-                //         `Failed to submit review ${responseData.message}`,
-                //         {
-                //             position: 'bottom-right',
-                //         }
-                //     );
-                // }
-
-                setSuccessMessage(responseData.success);
             } else {
                 throw new Error('Failed to submit review');
             }
@@ -128,8 +117,7 @@ const ReviewForm = ({id}) => {
                             <small className="mt-1 text-red-500">
                                 {commentMsg}
                             </small>
-
-                        ) }
+                        )}
                     </div>
 
                     {/* Photo Upload */}
@@ -153,7 +141,7 @@ const ReviewForm = ({id}) => {
                             value={formData.name}
                         />
                         <Input
-                            label="আপনার ইমেইল"
+                            label="আপনার ইমেইল / ফোন নম্বর দিন"
                             type="email"
                             name="email"
                             warningMessage={emailMsg ? emailMsg : null}

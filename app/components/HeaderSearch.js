@@ -3,7 +3,9 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useContext, useState } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
+import ScrollContext from '../context/scrollContext';
 import SearchContext from "../reducer/SearchContext";
+
 
 const HeaderSearch = ({showSearchModal, setShowSearchModal}) => {
 const [search, setSearch] = useState('');
@@ -12,6 +14,7 @@ const pathname = usePathname();
 const { replace } = useRouter();
 
     const contextValue = useContext(SearchContext); // Add this line
+    const { scrollToMyProduct } = useContext(ScrollContext);
 
     const { setSearchQuery } = contextValue;
 
@@ -21,6 +24,7 @@ const { replace } = useRouter();
     const handleSearch = (event) => {
         event.preventDefault();
         setSearchQuery(search);
+        scrollToMyProduct();
     };
 
     return (
@@ -50,7 +54,7 @@ const { replace } = useRouter();
                     className="absolute top-1 right-1 px-5 py-[10px] bg-gray-900 text-gray-200 rounded-lg text-lg font-normal flex items-center gap-[10px] h-12 sm:h-auto"
                 >
                     <IoSearchOutline />
-                    <span className='hidden sm:block'>Search</span>
+                    <span className='hidden sm:block'>খুজুন</span>
                 </button>
             </form>
         </div>

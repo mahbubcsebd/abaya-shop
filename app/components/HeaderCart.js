@@ -63,12 +63,12 @@ const HeaderCart = () => {
         >
             <button
                 type="button"
-                className="relative flex items-center gap-1 text-2xl text-gray-800"
+                className="relative flex items-center gap-1 text-2xl text-white"
                 onClick={handleShow}
             >
                 <BsCart3 />
-                <span className="text-[18px] text-gray-800 font-medium">
-                    Cart
+                <span className="text-[18px] text-white font-medium">
+                    কার্ট
                 </span>
                 {state.cartItems.length > 0 && (
                     <span className="w-[10px] h-[10px] rounded-full bg-[#FF2848] text-[8px] text-white flex justify-center items-center absolute top-1 left-4">
@@ -79,8 +79,8 @@ const HeaderCart = () => {
             {show && (
                 <div className="absolute right-0 top-10 bg-white rounded-lg px-5 py-6 min-w-[300px] lg:min-w-[370px] z-50">
                     {cartItems.length === 0 ? (
-                        <p className="text-2xl text-center">
-                            The Cart is Empty!!!
+                        <p className="text-xl text-center">
+                            কার্টে কোন প্রোডাক্ট নেই।
                         </p>
                     ) : (
                         <div>
@@ -116,7 +116,9 @@ const HeaderCart = () => {
                                                         <RxCross1 />
                                                     </p>
                                                     <p className="text-sm lg:text-lg text-[#F93754] font-semibold">
-                                                        {product.sale_price}
+                                                        {product.sale_price > 0
+                                                            ? product.sale_price
+                                                            : product.unit_price}
                                                     </p>
                                                 </div>
                                                 <button

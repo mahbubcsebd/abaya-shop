@@ -1,23 +1,38 @@
 'use client';
 
-import bkash from '@/app/assets/icons/bkash.svg';
-import cod from '@/app/assets/icons/cod.svg';
-import nagad from '@/app/assets/icons/nagad.svg';
+import bkash from '@/app/assets/icons/checkout-bkash.svg';
+import cod from '@/app/assets/icons/checkout-cod.svg';
+import nagad from '@/app/assets/icons/checkout-nagad.svg';
 import Image from 'next/image';
-import { useContext, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect, useState } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa6';
 import { RxCross2 } from 'react-icons/rx';
 import { toast } from 'react-toastify';
 import Input from '../components/form/Input';
 import PaymentRadio from '../components/form/PaymentRadio';
-import RadioButton from '../components/form/RadioButton';
 import { ProductContext } from '../context/cartContext';
+import { getCoupon } from '../utils/getCoupon';
 import { orderPost } from '../utils/orderPost';
 
-const CheckoutPage = () => {
+const CheckoutPage = ({ siteSettings }) => {
+    const [total, setTotal] = useState(0)
+    const [couponApply, setCouponApply] = useState(true);
+    const [couponCode, setCouponCode] = useState('');
+
+    const handleCodeChange = (event) => {
+        setCouponCode(event.target.value);
+    };
+
+    const { inside_dhaka, outside_dhaka } = siteSettings;
+
+    const insideDhakaDC = inside_dhaka ? Number(inside_dhaka) : 0;
+    const outsideDhakaDC = outside_dhaka ? Number(outside_dhaka) : 0;
+
+    const router = useRouter();
     const [selectedValue, setSelectedValue] = useState('inside_dhaka');
     const [selectedPayment, setSelectedPayment] = useState('cash');
-    const [shippingCost, setShippingCost] = useState(80);
+    const [shippingCost, setShippingCost] = useState(insideDhakaDC);
 
     const [nameWarningMessage, setNameWarningMessage] = useState(null);
     // const [emailWarningMessage, setEmailWarningMessage] = useState(null);
@@ -27,17 +42,111 @@ const CheckoutPage = () => {
     const { state, dispatch } = useContext(ProductContext);
     const { cartItems, cartTotal } = state;
 
-    const total = cartTotal + shippingCost;
+    useEffect(() => {
+        setTotal(cartTotal + shippingCost);
+    }, [cartTotal, shippingCost]);
+
+    const handleSelectChange = (event) => {
+        const value = event.target.value;
+        setSelectedValue(value);
+
+        if (value === 'inside_dhaka') {
+            setShippingCost(insideDhakaDC);
+        } else if (value === 'outside_dhaka') {
+            setShippingCost(outsideDhakaDC);
+        }
+    };
+
+    const handleApply = async () => {
+        try {
+            if(couponCode === "") {
+                toast.error(`কুপন কোড দিন`, {
+                    position: 'bottom-right',
+                });
+            }
+
+            let couponData = await getCoupon(couponCode);
+            if (couponData.success && couponCode) {
+                if (!couponApply) {
+                    toast.error(`আপনি কুপন ব্যবহার করে ফেলেছেন`, {
+                        position: 'bottom-right',
+                    });
+                }
+                const { type, discount } = couponData.data;
+
+                if (type === 'Flat' && couponApply) {
+                    setTotal(total - discount);
+                    setCouponApply(false);
+                    toast.success(`"কুপন সফল হয়েছে"`, {
+                        position: 'bottom-right',
+                    });
+                }
+
+                if (type === 'Percentage' && couponApply) {
+                    const discountAmount = total * (discount / 100);
+                    setTotal(total - discountAmount);
+                    setCouponApply(false);
+                    toast.success(`"কুপন সফল হয়েছে"`, {
+                        position: 'bottom-right',
+                    });
+                }
+            } else {
+                if(couponCode) {
+                    toast.error(`"কুপন সফল হয়নি"`, {
+                        position: 'bottom-right',
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching coupon:', error);
+        }
+    };
+
+    const handleCategoryLoadMoreClick = async (categoryName, page = 0) => {
+        setLoading(true);
+        try {
+            setSelectedCategory(categoryName);
+            let prevPage = page + 1;
+            let productData = await getAllProduct(null, categoryName, prevPage);
+            if (productData.data.length > 4) {
+                if (categoryName) {
+                    setProductItem(productData.data);
+                    setLoading(true);
+                } else {
+                    setProductItem((prevProducts) => [
+                        ...prevProducts,
+                        ...productData.data,
+                    ]);
+                }
+                setSelectedProducts(productData);
+            } else {
+                //setProductItem([]);
+                setHasMore(false);
+            }
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const orderedProduct = [];
     cartItems.map((product) =>
         orderedProduct.push({
             product_id: product.id,
             quantity: product.quantity,
-            price: product.sale_price,
-            size_id: product.size_id,
-            color_id: product.color_id,
-            total: product.quantity * product.sale_price,
+            price:
+                product.sale_price > 0
+                    ? product.sale_price
+                    : product.unit_price,
+            size: product.size_name,
+            color: product.color_name,
+            total:
+                product.quantity *
+                (product.sale_price > 0
+                    ? product.sale_price
+                    : product.unit_price),
+            attributes: product.attributes,
         })
     );
 
@@ -69,17 +178,17 @@ const CheckoutPage = () => {
         });
     };
 
-    const handleChange = (event) => {
-        setSelectedValue(event.target.value);
+    // const handleChange = (event) => {
+    //     setSelectedValue(event.target.value);
 
-        if (event.target.value === 'inside_dhaka') {
-            setShippingCost(80);
-        }
+    //     if (event.target.value === 'inside_dhaka') {
+    //         setShippingCost(80);
+    //     }
 
-        if (event.target.value === 'outside_dhaka') {
-            setShippingCost(120);
-        }
-    };
+    //     if (event.target.value === 'outside_dhaka') {
+    //         setShippingCost(120);
+    //     }
+    // };
 
     const handlePaymentChange = (event) => {
         setSelectedPayment(event.target.value);
@@ -89,8 +198,13 @@ const CheckoutPage = () => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
-
-        const { name, email, address, phone } = data;
+        console.log(data);
+        const {
+            name,
+            address,
+            phone,
+            spacial_instruction,
+        } = data;
 
         if (name === '' || name === null || name === undefined) {
             setNameWarningMessage('Name is required');
@@ -115,7 +229,9 @@ const CheckoutPage = () => {
             products: orderedProduct,
             delivery_fee: shippingCost,
             total_quantity: totalQuantity,
-            total_amount: cartTotal,
+            total_amount: total,
+            delivery_location: selectedValue,
+            spacial_instruction: spacial_instruction,
         };
 
         try {
@@ -124,6 +240,7 @@ const CheckoutPage = () => {
                 const responseData = await response.json();
 
                 if (responseData.success) {
+                    router.push('/order-successfull');
                     toast.success(`${responseData.success}`, {
                         position: 'bottom-right',
                     });
@@ -132,17 +249,6 @@ const CheckoutPage = () => {
                         type: 'CLEAR_CART',
                     });
                 }
-
-                // else {
-                //     toast.error(
-                //         `Failed to submit review ${responseData.message}`,
-                //         {
-                //             position: 'bottom-right',
-                //         }
-                //     );
-                // }
-
-                setSuccessMessage(responseData.success);
             } else {
                 throw new Error('Failed to submit review');
             }
@@ -154,7 +260,7 @@ const CheckoutPage = () => {
     return (
         <div
             id="cart-page"
-            className="py-20 cart-page"
+            className="pb-20 pt-28 lg:pt-[175px] mb:py-20 cart-page"
         >
             <div className="cart-area">
                 <div className="container">
@@ -165,12 +271,13 @@ const CheckoutPage = () => {
                     >
                         <div className="grid grid-cols-12 gap-[30px]">
                             <div className="col-span-12 lg:col-span-6 xxl:col-span-7">
-                                <h2 className="text-base sm:text-xl md:text-2xl lg:text-3xl xxl:text-4xl text-gray-900 font-semibold mb-5 lg:mb-[30px] flex flex-col gap-1">
-                                    প্রাপকের ঠিকানা
+                                <h2 className="text-base sm:text-xl md:text-2xl lg:text-2xl xxl:text-3xl text-gray-900 font-semibold mb-5 lg:mb-[30px] flex flex-col gap-1 md:leading-[36px] lg:leading-[40px]">
+                                    অর্ডারটি সম্পন্ন করতে আপনার নাম, মোবাইল
+                                    নম্বর ও ঠিকানা নিচে লিখুন
                                     <span className="w-9 h-[2px] bg-[#086CD9] lg:hidden"></span>
                                 </h2>
                                 <div className="lg:p-[30px] lg:rounded-[20px] lg:bg-white">
-                                    <div className="flex flex-col lg:flex-row items-start lg:items-center gap-[10px] lg:gap-4 mb-[30px]">
+                                    {/* <div className="flex flex-col lg:flex-row items-start lg:items-center gap-[10px] lg:gap-4 mb-[30px]">
                                         <RadioButton
                                             label="ঢাকার ভিতরে"
                                             value="inside_dhaka"
@@ -192,13 +299,13 @@ const CheckoutPage = () => {
                                             onChange={handleChange}
                                             deliveryCharge="১২০"
                                         />
-                                    </div>
+                                    </div> */}
                                     <div className="grid gap-[18px] lg:gap-6">
                                         <Input
-                                            label="আপনার নাম"
+                                            label="আপনার নাম লিখুন"
                                             type="text"
                                             name="name"
-                                            placeholder="John Doe"
+                                            placeholder="সম্পূর্ণ নামটি লিখুন"
                                             warningMessage={
                                                 nameWarningMessage
                                                     ? nameWarningMessage
@@ -207,10 +314,10 @@ const CheckoutPage = () => {
                                             required
                                         />
                                         <Input
-                                            label="মোবাইল নাম্বার"
+                                            label="আপনার মোবাইল নম্বরটি লিখুন"
                                             type="number"
                                             name="phone"
-                                            placeholder="018xxxxxxxx"
+                                            placeholder="১১ ডিজিটের মোবাইল নম্বরটি লিখুন"
                                             warningMessage={
                                                 phoneWarningMessage
                                                     ? phoneWarningMessage
@@ -218,33 +325,96 @@ const CheckoutPage = () => {
                                             }
                                             required
                                         />
-                                        <Input
-                                            label="ইমেইল এড্রেস"
-                                            type="email"
-                                            name="email"
-                                            optional="Optional"
-                                            placeholder="demo@gmail.com"
-                                            // warningMessage={emailWarningMessage ? emailWarningMessage : null}
-                                            required
-                                        />
-                                        <Input
+                                        <div className="delivary-area">
+                                            <label className="block text-gray-700 text-sm font-semibold mb-[6px]">
+                                                এলাকা সিলেক্ট করুন
+                                            </label>
+                                            <select
+                                                className="block w-full px-[14px] py-[16px] lg:px-6 lg:py-4 3xl:px-[18px] 3xl:py-[22px] border border-[#D0D5DD] text-gray-700 ring-1 ring-inset ring-[#D0D5DD] focus:ring-1 focus:ring-blue-900 placeholder:text-gray-400 placeholder:text-base outline-none rounded-md input-shadow bg-white cursor-pointer"
+                                                value={selectedValue}
+                                                onChange={handleSelectChange}
+                                            >
+                                                <option
+                                                    select
+                                                    value="inside_dhaka"
+                                                >
+                                                    Inside Dhaka -{' '}
+                                                    {insideDhakaDC > 0
+                                                        ? `${insideDhakaDC} Taka`
+                                                        : 'ফ্রি ডেলিভারি'}
+                                                </option>
+                                                <option value="outside_dhaka">
+                                                    Outside Dhaka -{' '}
+                                                    {outsideDhakaDC > 0
+                                                        ? `${outsideDhakaDC} Taka`
+                                                        : 'ফ্রি ডেলিভারি'}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700 text-sm font-semibold mb-[6px]">
+                                                সম্পূর্ন ঠিকানা
+                                            </label>
+                                            <textarea
+                                                type="text"
+                                                name="address"
+                                                placeholder="হাউজ নম্বর, রোড, ইউনিয়ন, উপজেলা, জেলা"
+                                                warningMessage={
+                                                    addressWarningMessage
+                                                        ? addressWarningMessage
+                                                        : null
+                                                }
+                                                rows="3"
+                                                required
+                                                className="block w-full px-6 py-4 3xl:px-[18px] 3xl:py-[22px] border border-[#D0D5DD] text-gray-700 ring-1 ring-inset ring-[#D0D5DD] focus:ring-1 focus:ring-blue-900 placeholder:text-gray-400 placeholder:text-base outline-none rounded-md input-shadow"
+                                            />
+                                            <small
+                                                className={`mt-1 text-red-500 ${
+                                                    addressWarningMessage ===
+                                                        '' ||
+                                                    addressWarningMessage ===
+                                                        null ||
+                                                    addressWarningMessage
+                                                        ? ''
+                                                        : 'hidden'
+                                                }`}
+                                            >
+                                                {addressWarningMessage}
+                                            </small>
+                                        </div>
+                                        <div>
+                                            <label className="block text-gray-700 text-sm font-semibold mb-[6px]">
+                                                নোট
+                                                <span className="text-gray-600">
+                                                    (অপশনাল)
+                                                </span>
+                                            </label>
+                                            <textarea
+                                                type="text"
+                                                name="spacial_instruction"
+                                                placeholder="আপনার স্পেশাল কোন রিকোয়ারমেন্ট থাকলে এখানে লিখুন"
+                                                rows="3"
+                                                className="block w-full px-6 py-4 3xl:px-[18px] 3xl:py-[22px] border border-[#D0D5DD] text-gray-700 ring-1 ring-inset ring-[#D0D5DD] focus:ring-1 focus:ring-blue-900 placeholder:text-gray-400 placeholder:text-base outline-none rounded-md input-shadow"
+                                            />
+                                        </div>
+                                        {/* <Input
                                             label="পুরো ঠিকানা"
                                             type="text"
                                             name="address"
-                                            placeholder="বাসা নাম্বার, রোড নাম্বার, এলাকার নাম, থানা, জেলা"
+                                            placeholder="বাসা নম্বর, রোড নম্বর, এলাকার নাম, থানা, জেলা"
                                             warningMessage={
                                                 addressWarningMessage
                                                     ? addressWarningMessage
                                                     : null
                                             }
                                             required
-                                        />
+                                        /> */}
                                     </div>
                                 </div>
                             </div>
                             <div className="col-span-12 lg:col-span-6 xxl:col-span-5">
                                 <div className="mb-10 cart-payment-amount">
-                                    <h2 className="text-base sm:text-xl md:text-2xl lg:text-3xl xxl:text-4xl text-gray-900 font-semibold mb-5 lg:mb-[30px] flex flex-col gap-1">
+                                    <h2 className="text-base sm:text-xl md:text-2xl lg:text-2xl xxl:text-3xl text-gray-900 font-semibold mb-5 lg:mb-[30px] flex flex-col gap-1 md:leading-[36px] lg:leading-[40px]">
                                         আপনার অর্ডার
                                         <span className="w-9 h-[2px] bg-[#086CD9] lg:hidden"></span>
                                     </h2>
@@ -342,23 +512,35 @@ const CheckoutPage = () => {
                                                                             </div>
                                                                             <p className="text-sm lg:text-lg text-[#F93754] font-semibold">
                                                                                 ৳
-                                                                                {
-                                                                                    product.sale_price
-                                                                                }
+                                                                                {product.sale_price >
+                                                                                0
+                                                                                    ? ' ' +
+                                                                                      product.sale_price
+                                                                                    : ' ' +
+                                                                                      product.unit_price}
                                                                             </p>
                                                                         </div>
                                                                         <div className="flex items-center justify-between">
                                                                             <div className="flex items-center gap-1">
-                                                                                <p className="text-[9px] bg-gray-900 text-white py-[2px] rounded-lg leading-[12px] px-2">
-                                                                                    {
-                                                                                        product.color_name
-                                                                                    }
-                                                                                </p>
-                                                                                <p className="text-[9px] bg-gray-900 text-white py-[2px] rounded-lg leading-[12px] px-2">
-                                                                                    {
-                                                                                        product.size_name
-                                                                                    }
-                                                                                </p>
+                                                                                {Object.entries(
+                                                                                    product.attributes
+                                                                                ).map(
+                                                                                    ([
+                                                                                        key,
+                                                                                        value,
+                                                                                    ]) => (
+                                                                                        <p
+                                                                                            key={
+                                                                                                key
+                                                                                            }
+                                                                                            className="text-[9px] bg-gray-900 text-white py-[2px] rounded-lg leading-[12px] px-2"
+                                                                                        >
+                                                                                            {
+                                                                                                value
+                                                                                            }
+                                                                                        </p>
+                                                                                    )
+                                                                                )}
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -371,7 +553,7 @@ const CheckoutPage = () => {
                                                 <ul className="">
                                                     <li className="flex items-center justify-between py-3 border-b border-gray-400 lg:py-5">
                                                         <p className="text-sm font-semibold text-gray-700 lg:text-lg">
-                                                            মোট :
+                                                            সাবটোটাল :
                                                         </p>
                                                         <p className="text-sm font-semibold text-gray-700 lg:text-lg">
                                                             {cartTotal} টাকা
@@ -384,6 +566,30 @@ const CheckoutPage = () => {
                                                         <p className="text-sm font-semibold text-gray-700 lg:text-lg">
                                                             {shippingCost} টাকা
                                                         </p>
+                                                    </li>
+                                                    <li className="py-3 border-b border-gray-400 lg:py-5">
+                                                        <div class="flex justify-between items-center relative">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="কুপন কোড থাকলে দিন"
+                                                                value={
+                                                                    couponCode
+                                                                }
+                                                                onChange={
+                                                                    handleCodeChange
+                                                                }
+                                                                class="border-0 w-full px-0 focus:outline-none focus:ring-0 active:outline-none text-sm font-normal text-gray-700 lg:text-lg"
+                                                            />
+                                                            <button
+                                                                onClick={
+                                                                    handleApply
+                                                                }
+                                                                type="button"
+                                                                className="absolute right-0 text-sm font-semibold text-gray-700 lg:text-lg"
+                                                            >
+                                                                Apply
+                                                            </button>
+                                                        </div>
                                                     </li>
                                                     <li className="flex items-center justify-between pt-3 lg:pt-5">
                                                         <p className="text-sm font-semibold text-gray-700 lg:text-lg">
@@ -403,16 +609,16 @@ const CheckoutPage = () => {
                                     </div>
                                 </div>
                                 <div className="cart-payment-option">
-                                    <h2 className="text-base sm:text-xl md:text-2xl lg:text-3xl xxl:text-4xl text-gray-900 font-semibold mb-5 lg:mb-[30px] flex flex-col gap-1">
+                                    <h2 className="text-base sm:text-xl md:text-2xl lg:text-2xl xxl:text-3xl text-gray-900 font-semibold mb-5 lg:mb-[30px] flex flex-col gap-1 md:leading-[36px] lg:leading-[40px]">
                                         পেমেন্ট অপশন
                                         <span className="w-9 h-[2px] bg-[#086CD9] lg:hidden"></span>
                                     </h2>
-                                    <div className="grid gap-3 mb-[30px]">
+                                    <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 2xl:grid-cols-3">
                                         <PaymentRadio
                                             value="cash"
                                             icon={cod}
                                             name="payment_method"
-                                            imgClass="w-[160px] lg:w-auto"
+                                            imgClass="w-[160px]"
                                             checked={selectedPayment === 'cash'}
                                             onChange={handlePaymentChange}
                                         />
@@ -420,7 +626,7 @@ const CheckoutPage = () => {
                                             value="bkash"
                                             icon={bkash}
                                             name="payment_method"
-                                            imgClass="w-[74px] lg:w-auto"
+                                            imgClass="w-[74px]"
                                             checked={
                                                 selectedPayment === 'bkash'
                                             }
@@ -430,14 +636,86 @@ const CheckoutPage = () => {
                                             value="nagad"
                                             icon={nagad}
                                             name="payment_method"
-                                            imgClass="w-[78px] lg:w-auto"
+                                            imgClass="w-[78px]"
                                             checked={
                                                 selectedPayment === 'nagad'
                                             }
                                             onChange={handlePaymentChange}
                                         />
                                     </div>
-                                    <div>
+                                    {(selectedPayment === 'bkash' ||
+                                        selectedPayment === 'nagad') && (
+                                        <div>
+                                            {selectedPayment === 'bkash' ? (
+                                                <p className="pt-[30px] text-base text-gray-700 font-normal">
+                                                    বিকাশ এ{' '}
+                                                    <span className="inline-block font-semibold">
+                                                        পেমেন্ট
+                                                    </span>{' '}
+                                                    অপশন থেকে{' '}
+                                                    <span className="inline-block font-semibold">
+                                                        01896088855
+                                                    </span>{' '}
+                                                    এই নম্বর এ অর্ডার এমাউন্টটি
+                                                    পেমেন্ট করুন এবং নিচে আপনার
+                                                    বিকাশ একাউন্ট নম্বর এবং
+                                                    ট্রানজেকশন আইডি টি দিন।
+                                                </p>
+                                            ) : (
+                                                <p className="pt-[30px] text-base text-gray-700 font-normal">
+                                                    নগদ এ{' '}
+                                                    <span className="inline-block font-semibold">
+                                                        সেন্ড মানি
+                                                    </span>{' '}
+                                                    অপশন থেকে{' '}
+                                                    <span className="inline-block font-semibold">
+                                                        01952345231
+                                                    </span>{' '}
+                                                    এই নম্বর এ অর্ডার এমাউন্টটি
+                                                    সেন্ড করুন এবং নিচে আপনার
+                                                    নগদ একাউন্ট নম্বর এবং
+                                                    ট্রানজেকশন আইডি টি দিন।
+                                                </p>
+                                            )}
+                                            <div className="grid sm:grid-cols-2 gap-[18px] lg:gap-6 pt-6">
+                                                <div className="">
+                                                    <label
+                                                        htmlFor="phoneNumber"
+                                                        className="block text-gray-700 text-sm font-semibold mb-[6px]"
+                                                    >
+                                                        {selectedPayment ===
+                                                        'bkash'
+                                                            ? 'বিকাশ নম্বর দিন'
+                                                            : 'নগদ নম্বর দিন'}
+                                                    </label>
+                                                    <input
+                                                        type="tel"
+                                                        name="phone_number"
+                                                        placeholder="017XXXXXXXX"
+                                                        className="block w-full px-[14px] py-[16px] lg:px-6 lg:py-4 3xl:px-[18px] 3xl:py-[22px] border border-[#D0D5DD] text-gray-700 ring-1 ring-inset ring-[#D0D5DD] focus:ring-1 focus:ring-blue-900 placeholder:text-gray-400 placeholder:text-base outline-none rounded-md input-shadow bg-white"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label
+                                                        htmlFor="transactionId"
+                                                        className="block text-gray-700 text-sm font-semibold mb-[6px]"
+                                                    >
+                                                        {selectedPayment ===
+                                                        'bkash'
+                                                            ? 'বিকাশ ট্রানজেকশন আইডি দিন'
+                                                            : 'নগদ ট্রানজেকশন আইডি দিন'}
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="transaction_id"
+                                                        placeholder="7XP59GS33F"
+                                                        className="block w-full px-[14px] py-[16px] lg:px-6 lg:py-4 3xl:px-[18px] 3xl:py-[22px] border border-[#D0D5DD] text-gray-700 ring-1 ring-inset ring-[#D0D5DD] focus:ring-1 focus:ring-blue-900 placeholder:text-gray-400 placeholder:text-base outline-none rounded-md input-shadow bg-white"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                    <div className=" mt-[30px]">
                                         <button
                                             type="submit"
                                             className="flex justify-center items-center text-center gap-2 px-[30px] py-4 text-white bg-gray-900 rounded-md w-full"

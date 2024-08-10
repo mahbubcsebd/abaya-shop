@@ -3,12 +3,19 @@ const nextConfig = {
     images: {
         // unoptimized: true,
         formats: ['image/avif', 'image/webp'],
+        // domains: ['admin.abayaa.shop', 'shop.uibarn.com'],
         remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'admin.abayaa.shop',
+                port: '',
+                pathname: '/storage/**',
+            },
             {
                 protocol: 'https',
                 hostname: 'shop.uibarn.com',
                 port: '',
-                pathname: '/storage/**',
+                pathname: '/storage/10/**',
             },
         ],
     },

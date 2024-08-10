@@ -9,7 +9,7 @@ const ReviewBox = ({ id, reviews, ratings }) => {
     const [showReview, setShowReview] = useState(false);
 
     const handleShowReview = () => {
-        setShowReview(!showReview);
+        setShowReview(true);
     };
     return (
         <div>
@@ -19,6 +19,7 @@ const ReviewBox = ({ id, reviews, ratings }) => {
             />
             <Review
                 showReview={showReview}
+                setShowReview={setShowReview}
                 id={id}
             />
             <ClientFeedback reviews={reviews} />

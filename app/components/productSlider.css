@@ -14,13 +14,13 @@
 }
 
 .slider-thumb .swiper-slide {
-    height: 170px;
+    height: 140px;
     overflow: hidden;
-    border-radius: 15px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    -ms-border-radius: 15px;
-    -o-border-radius: 15px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
     opacity: 0.4;
     cursor: pointer;
     border: 1px solid blue;

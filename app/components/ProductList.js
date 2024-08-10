@@ -2,13 +2,15 @@
 "use client"
 import { useContext, useEffect, useState } from 'react';
 import { IoOptions } from 'react-icons/io5';
+import ScrollContext from '../context/scrollContext';
 import SearchContext from "../reducer/SearchContext";
 import { getAllProduct } from "./../utils/getProduct";
 import ProductCard from './ProductCard';
 
 
 const ProductList = ({ products, categories }) => {
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const { productDivRef } = useContext(ScrollContext);
+    const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedProducts, setSelectedProducts] = useState(products);
     const [productItem, setProductItem] = useState(products.data);
     const [loading, setLoading] = useState(false);
@@ -18,6 +20,7 @@ const ProductList = ({ products, categories }) => {
         (cat) => cat.is_featured === true
     );
     const { searchQuery } = useContext(SearchContext);
+
     useEffect(() => {
         const fetchProducts = async () => {
             setLoading(true);
@@ -34,13 +37,18 @@ const ProductList = ({ products, categories }) => {
         fetchProducts();
     }, [searchQuery]);
 
+    const handleAllFilter = () => {
+        setSelectedCategory('all');
+        setProductItem(products.data);
+    }
+
     const handleCategoryLoadMoreClick = async (categoryName, page=0) => {
         setLoading(true);
         try {
             setSelectedCategory(categoryName)
             let prevPage = page + 1;
             let productData = await getAllProduct(null, categoryName, prevPage);
-            if (productData.data.length > 0) {
+            if (productData.data.length > 4) {
                 if (categoryName){
                         setProductItem(productData.data)
                         setLoading(true);
@@ -63,20 +71,34 @@ const ProductList = ({ products, categories }) => {
     return (
         <div
             id="product-section"
+            ref={productDivRef}
             className="mb-20 product-section"
         >
             <div className="product-area">
                 <div className="container">
                     <div className="flex justify-center md:mb-[70px] mb-6">
-                        <h2 className="text-2xl font-semibold text-gray-800 md:text-5xl product-title">
+                        <h2 className="hidden text-2xl font-semibold text-gray-800 md:block md:text-5xl product-title">
                             আমাদের পণ্য সমূহ
                         </h2>
                     </div>
-                    <div className="product-filter md:flex items-center gap-[20px] mb-[30px] hidden">
-                        <div className="flex items-center gap-2 text-[20px] font-normal text-gray-800">
-                            <IoOptions /> ফিল্টার করুন
+                    <div className="product-filter items-start flex lg:items-center gap-4 sm:gap-5 mb-[30px]">
+                        <div className="flex items-center gap-2 mt-2 lg:mt-0 text-lg md:text-[20px] font-normal text-gray-800">
+                            <IoOptions />
                         </div>
-                        <ul className="flex items-center flex-wrap gap-[18px]">
+                        <ul className="flex items-center flex-wrap gap-2 sm:gap-3 md:gap-[18px]">
+                            <li>
+                                <button
+                                    onClick={handleAllFilter}
+                                    type="button"
+                                    className={`px-3 py-1 md:px-6 md:py-[6px] text-xs sm:text-base font-normal text-gray-700 border border-gray-700 rounded-md hover:bg-gray-700 hover:text-white transition duration-150 ${
+                                        selectedCategory == 'all'
+                                            ? 'bg-gray-700 text-white'
+                                            : ''
+                                    }`}
+                                >
+                                    সবগুলো
+                                </button>
+                            </li>
                             {categories.map((category) => (
                                 <li key={category.id}>
                                     <button
@@ -86,7 +108,7 @@ const ProductList = ({ products, categories }) => {
                                             )
                                         }
                                         type="button"
-                                        className={`px-6 py-2 text-base font-normal text-gray-700 border border-gray-700 rounded-md ${
+                                        className={`px-3 py-1 md:px-6 md:py-[6px] text-xs sm:text-base font-normal text-gray-700 border border-gray-700 rounded-md hover:bg-gray-700 hover:text-white transition duration-150 ${
                                             selectedCategory == category.name
                                                 ? 'bg-gray-700 text-white'
                                                 : ''
@@ -96,17 +118,6 @@ const ProductList = ({ products, categories }) => {
                                     </button>
                                 </li>
                             ))}
-                            {/* <li>
-                                <button
-                                    onClick={() =>
-                                        handleCategoryLoadMoreClick(null)
-                                    }
-                                    type="button"
-                                    className={`text-base font-normal text-gray-700 rounded-md flex items-center gap-1`}
-                                >
-                                    মুছুন<RxCross2 />
-                                </button>
-                            </li> */}
                         </ul>
                     </div>
                     {productItem.length > 0 ? (
@@ -124,7 +135,7 @@ const ProductList = ({ products, categories }) => {
                         <div>No products found</div>
                     )}
 
-                    <div className="flex justify-center pt-10">
+                    <div className="flex justify-center md:pt-[70px] mt-6">
                         {hasMore && (
                             <button
                                 onClick={() =>
@@ -135,7 +146,7 @@ const ProductList = ({ products, categories }) => {
                                 }
                                 disabled={loading}
                                 type="button"
-                                className="text-base md:text-[20px] text-gray-900 font-normal border-2 border-gray-900 px-6 py-4 rounded-lg md:px-[30px] md:py-[20px] hover:bg-gray-900 hover:text-white transition duration-150"
+                                className="text-base md:text-[20px] text-gray-900 font-normal border-2 border-gray-900 px-6 py-3 rounded-lg md:px-[30px] md:py-4 hover:bg-gray-900 hover:text-white transition duration-150"
                             >
                                 {loading ? 'Loading...' : 'আরো দেখুন'}
                             </button>

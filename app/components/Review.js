@@ -1,6 +1,6 @@
 import ReviewForm from "./ReviewForm";
 
-const Review = ({ id, showReview }) => {
+const Review = ({ id, showReview, setShowReview }) => {
     return (
         <div
             id="product-review"
@@ -27,7 +27,9 @@ const Review = ({ id, showReview }) => {
                     </div>
                     {showReview && (
                         <div className="max-w-[670px]">
-                            <ReviewForm id={id} />
+                            <ReviewForm
+                                id={id}
+                                setShowReview={setShowReview} />
                         </div>
                     )}
                 </div>

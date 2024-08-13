@@ -23,7 +23,7 @@ const ProductSlider = ({ product }) => {
     return (
         <div className="product-slider">
             {product_images !== null ? (
-                <div className="w-full h-[500px] sm:h-[620px] md:h-[880px] lg:h-[550px] xl:h-[600px]: 2xl:h-[700px] lg:rounded-[30px] overflow-hidden mb-4">
+                <div className="w-full h-[460px] sm:h-[600px] md:h-[880px] lg:h-[550px] xl:h-[530px]: 2xl:h-[620px] lg:rounded-[30px] overflow-hidden mb-4">
                     <Swiper
                         spaceBetween={10}
                         navigation={true}
@@ -36,8 +36,8 @@ const ProductSlider = ({ product }) => {
                                 <Image
                                     src={orginalImg.original_url}
                                     alt="hero slider"
-                                    width={100}
-                                    height={100}
+                                    width={400}
+                                    height={550}
                                     className="w-full h-full"
                                 />
                             </SwiperSlide>

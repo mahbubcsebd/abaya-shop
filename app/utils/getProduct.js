@@ -1,8 +1,8 @@
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export async function getAllProduct(search = null, category = null, page = 1) {
+export async function getAllProduct(search = null, category = null, perPageShow = 12) {
     const res = await fetch(
-        `${baseUrl}/products?perPage=4&page=${page}&search=${search}&category=${category}`,
+        `${baseUrl}/products?perPage=${perPageShow}&search=${search}&category=${category}`,
         { cache: 'no-store' }
     );
 
@@ -24,20 +24,3 @@ export async function getProduct(uuid) {
 
     return res.json();
 }
-
-// export async function getProductBySearch(search) {
-//     const res = await fetch(
-//         `${baseUrl}/products?search=${search}`,
-//         {
-//             next: {
-//                 revalidate: 10,
-//             },
-//         }
-//     );
-
-//     if (!res.ok) {
-//         throw new Error('Failed to fetch product');
-//     }
-
-//     return res.json();
-// }

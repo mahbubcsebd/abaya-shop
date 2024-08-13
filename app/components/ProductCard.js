@@ -1,9 +1,6 @@
-'use client';
-
-import ImageRatio from '@/app/components/ImageRatio';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useEffect, useRef, useState } from 'react';
-import noAvailable from "../assets/icons/no-available.svg";
 import { ProductContext } from '../context/cartContext';
 
 const ProductCard = ({ product }) => {
@@ -28,9 +25,9 @@ const ProductCard = ({ product }) => {
             ref={productCardRef}
             className="overflow-hidden rounded-lg product-card"
         >
-            {/* <Link
+            <Link
                 href={`/product/${uuid}`}
-                className="block product-image h-[190px] md:h-[320px] rounded-tl-lg rounded-tr-lg overflow-hidden"
+                className="block product-image h-[240px] sm:h-[373px] md:h-[286px] lg:h-[270px] xl:h-[344px] 1xl:h-[417px] 2xl:h-[419px] rounded-tl-lg rounded-tr-lg overflow-hidden"
             >
                 <Image
                     src={preview_image}
@@ -39,12 +36,12 @@ const ProductCard = ({ product }) => {
                     height={320}
                     className="object-cover w-full h-full"
                 />
-            </Link> */}
-            <ImageRatio
+            </Link>
+            {/* <ImageRatio
                 src={preview_image ? preview_image : noAvailable}
                 initialWidth={width}
                 uuid={uuid}
-            />
+            /> */}
             <div className="product-content p-[10px] md:p-[18px] bg-white">
                 <Link
                     href={`/product/${uuid}`}

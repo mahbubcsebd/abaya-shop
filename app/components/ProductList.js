@@ -1,6 +1,6 @@
 // import products from "@/app/data/products.json";
 "use client"
-import { useContext, useEffect, useState } from 'react';
+import { Suspense, useContext, useEffect, useState } from 'react';
 import { IoOptions } from 'react-icons/io5';
 import ScrollContext from '../context/scrollContext';
 import SearchContext from "../reducer/SearchContext";
@@ -8,17 +8,24 @@ import { getAllProduct } from "./../utils/getProduct";
 import ProductCard from './ProductCard';
 
 
-const ProductList = ({ products, categories }) => {
+const ProductList = ({ categories }) => {
     const { productDivRef } = useContext(ScrollContext);
     const [selectedCategory, setSelectedCategory] = useState('all');
-    const [selectedProducts, setSelectedProducts] = useState(products);
-    const [productItem, setProductItem] = useState(products.data);
+    const [showProduct, setShowProduct] = useState(12);
+    const [selectedProducts, setSelectedProducts] = useState();
+    const [productItem, setProductItem] = useState([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
-    const activeCategories = categories.filter(
-        (cat) => cat.is_featured === true
-    );
+    useEffect(() => {
+        const allProduct = async () => {
+            const products = await getAllProduct(null, null, showProduct);
+            return products.data;
+        };
+
+        setProductItem(allProduct());
+    }, [showProduct]);
+
     const { searchQuery } = useContext(SearchContext);
 
     useEffect(() => {
@@ -37,35 +44,69 @@ const ProductList = ({ products, categories }) => {
         fetchProducts();
     }, [searchQuery]);
 
-    const handleAllFilter = () => {
-        setSelectedCategory('all');
-        setProductItem(products.data);
-    }
+    // const handleAllFilter = () => {
+    //     setSelectedCategory('all');
+    //     setProductItem(products.data);
+    // }
 
-    const handleCategoryLoadMoreClick = async (categoryName, page=0) => {
+    const handleAllFilter = async (categoryName) => {
         setLoading(true);
         try {
-            setSelectedCategory(categoryName)
-            let prevPage = page + 1;
-            let productData = await getAllProduct(null, categoryName, prevPage);
-            if (productData.data.length > 4) {
-                if (categoryName){
-                        setProductItem(productData.data)
-                        setLoading(true);
-                }else{
-                    setProductItem((prevProducts) => [...prevProducts, ...productData.data])
-                }
-                setSelectedProducts(productData);
-            } else {
-                //setProductItem([]);
-                setHasMore(false);
-            }
+            setSelectedCategory('all');
+            let productData = await getAllProduct(null, null, showProduct);
+            setProductItem(productData.data);
         } catch (error) {
             console.error('Error fetching products:', error);
         } finally {
             setLoading(false);
         }
     };
+
+    const handleCategoryLoadMoreClick = async (categoryName) => {
+        setLoading(true);
+        try {
+            setSelectedCategory(categoryName)
+            let productData = await getAllProduct(
+                null,
+                categoryName,
+                showProduct
+            );
+            setProductItem(productData.data);
+            // if (productData.data.length > 12) {
+            //     if (categoryName){
+            //             setProductItem(productData.data)
+            //             setLoading(true);
+            //     }else{
+            //         setProductItem((prevProducts) => [...prevProducts, ...productData.data])
+            //     }
+            //     setSelectedProducts(productData);
+            // } else {
+            //     //setProductItem([]);
+            //     setHasMore(false);
+            // }
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // const handleSeeMore = (showNumber) => {
+    //     setShowProduct((prevState) => prevState + showNumber);
+    // }
+
+        const handleSeeMore = async (showNumber) => {
+            setLoading(true);
+            try {
+                setShowProduct((prevState) => prevState + showNumber);
+                let productData = await getAllProduct(null, null, showProduct);
+                setProductItem(productData.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
 
     return (
@@ -120,30 +161,27 @@ const ProductList = ({ products, categories }) => {
                             ))}
                         </ul>
                     </div>
-                    {productItem.length > 0 ? (
-                        <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px]">
-                            {productItem.map((product) => {
-                                return (
-                                    <ProductCard
-                                        key={product.id}
-                                        product={product}
-                                    />
-                                );
-                            })}
-                        </div>
-                    ) : (
-                        <div>No products found</div>
-                    )}
+                    <Suspense fallback={<h2>Loading...</h2>}>
+                        {productItem.length > 0 ? (
+                            <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px]">
+                                {productItem.map((product) => {
+                                    return (
+                                        <ProductCard
+                                            key={product.id}
+                                            product={product}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <div>No products found</div>
+                        )}
+                    </Suspense>
 
                     <div className="flex justify-center md:pt-[70px] mt-6">
-                        {hasMore && (
+                        {productItem.length > 11 && (
                             <button
-                                onClick={() =>
-                                    handleCategoryLoadMoreClick(
-                                        null,
-                                        selectedProducts.meta.current_page
-                                    )
-                                }
+                                onClick={() => handleSeeMore(4)}
                                 disabled={loading}
                                 type="button"
                                 className="text-base md:text-[20px] text-gray-900 font-normal border-2 border-gray-900 px-6 py-3 rounded-lg md:px-[30px] md:py-4 hover:bg-gray-900 hover:text-white transition duration-150"

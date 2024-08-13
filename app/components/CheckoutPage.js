@@ -2,7 +2,6 @@
 
 import bkash from '@/app/assets/icons/checkout-bkash.svg';
 import cod from '@/app/assets/icons/checkout-cod.svg';
-import nagad from '@/app/assets/icons/checkout-nagad.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
@@ -613,7 +612,8 @@ const CheckoutPage = ({ siteSettings }) => {
                                         পেমেন্ট অপশন
                                         <span className="w-9 h-[2px] bg-[#086CD9] lg:hidden"></span>
                                     </h2>
-                                    <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 2xl:grid-cols-3">
+                                    {/* <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 2xl:grid-cols-3"> */}
+                                    <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2">
                                         <PaymentRadio
                                             value="cash"
                                             icon={cod}
@@ -632,7 +632,7 @@ const CheckoutPage = ({ siteSettings }) => {
                                             }
                                             onChange={handlePaymentChange}
                                         />
-                                        <PaymentRadio
+                                        {/* <PaymentRadio
                                             value="nagad"
                                             icon={nagad}
                                             name="payment_method"
@@ -641,7 +641,7 @@ const CheckoutPage = ({ siteSettings }) => {
                                                 selectedPayment === 'nagad'
                                             }
                                             onChange={handlePaymentChange}
-                                        />
+                                        /> */}
                                     </div>
                                     {(selectedPayment === 'bkash' ||
                                         selectedPayment === 'nagad') && (

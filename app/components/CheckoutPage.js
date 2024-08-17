@@ -106,10 +106,14 @@ const CheckoutPage = ({ siteSettings }) => {
             // const currentProduct = products.find((p) => p.id === product.id);
 
             return {
-                item_name: product.name,
-                item_id: product.id,
-                price: product.sale_price,
-                quantity: product.quantity,
+                item_name: 'Product Name is ok',
+                item_id: 12345,
+                price: 120,
+                item_variant: 'grey',
+                item_list_name: 'last',
+                item_list_id: '',
+                index: 0,
+                quantity: 26 || 0,
             };
         });
 

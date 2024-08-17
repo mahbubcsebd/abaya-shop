@@ -95,7 +95,7 @@ const ProductOrder = ({ product }) => {
 
              window.dataLayer.push({
                  event: 'add_to_cart',
-                 data: 'product added successful',
+                 data: 'product added successfull',
              });
         } else {
             toast.error(

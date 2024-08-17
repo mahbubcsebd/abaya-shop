@@ -7,15 +7,15 @@ import { useState } from "react";
 
 
 
-export async function generateMetadata({ params }) {
-    const product = await getProduct(params.uuid);
+// export async function generateMetadata({ params }) {
+//     const product = await getProduct(params.uuid);
 
-    const { name } = product.data;
+//     const { name } = product.data;
 
-    return {
-        title: `Abaya | ${name}`,
-    };
-}
+//     return {
+//         title: `Abaya | ${name}`,
+//     };
+// }
 
 
 const ProductDetails = async ({params}) => {

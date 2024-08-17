@@ -1,8 +1,13 @@
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export async function getAllProduct(search = null, category = null, perPageShow = 12) {
+export async function getAllProduct(
+    search = null,
+    category = null,
+    page = 1,
+    perPage = 4
+) {
     const res = await fetch(
-        `${baseUrl}/products?perPage=${perPageShow}&search=${search}&category=${category}`,
+        `${baseUrl}/products?search=${search}&category=${category}&page=${page}&perPage=${perPage}`,
         { cache: 'no-store' }
     );
 

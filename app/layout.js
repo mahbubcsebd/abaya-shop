@@ -1,6 +1,6 @@
 'use client';
 
-import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleTagManager, sendGTMEvent } from '@next/third-parties/google';
 import { Poppins } from 'next/font/google';
 import { usePathname } from 'next/navigation';
 import { useEffect, useReducer } from 'react';
@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import { ProductContext } from './context/cartContext';
-import { ScrollProvider } from "./context/scrollContext";
+import { ScrollProvider } from './context/scrollContext';
 import './globals.css';
 import { cartReducer, initialState } from './reducer/CartReducer';
 import { SearchProvider } from './reducer/SearchContext';
@@ -37,18 +37,23 @@ export default function RootLayout({ children }) {
 
     return (
         <html lang="en">
-            <GoogleTagManager gtmId="GTM-TLN5QLJW" />
+            <GoogleTagManager gtmId="GTM-TJDRPB6Q" />
             <body className={poppins.className}>
                 <ProductContext.Provider value={{ state, dispatch }}>
-                        <ScrollProvider>
-                    <SearchProvider>
+                    <ScrollProvider>
+                        <SearchProvider>
                             {pathname !== '/order-successfull' && <Header />}
                             {children}
                             {pathname !== '/order-successfull' && <Footer />}
                             <ToastContainer />
-                    </SearchProvider>
-                        </ScrollProvider>
+                        </SearchProvider>
+                    </ScrollProvider>
                 </ProductContext.Provider>
+                <button
+                    onClick={() =>
+                        sendGTMEvent('event', 'buttonClicked', { value: 'xyz' })
+                    }
+                ></button>
             </body>
         </html>
     );

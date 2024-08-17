@@ -12,6 +12,7 @@ const [search, setSearch] = useState('');
 const searchParams = useSearchParams();
 const pathname = usePathname();
 const { replace } = useRouter();
+const router = useRouter();
 
     const contextValue = useContext(SearchContext); // Add this line
     const { scrollToMyProduct } = useContext(ScrollContext);
@@ -25,7 +26,16 @@ const { replace } = useRouter();
         event.preventDefault();
         setSearchQuery(search);
         scrollToMyProduct();
+        if (pathname !== '/') {
+            router.push("/")
+        }
     };
+
+    // useEffect(() => {
+    //     if (pathname === '/') {
+    //         scrollToMyProduct();
+    //     }
+    // }, [pathname, scrollToMyProduct]);
 
     return (
         <div

@@ -613,7 +613,7 @@ const CheckoutPage = ({ siteSettings }) => {
                                         <span className="w-9 h-[2px] bg-[#086CD9] lg:hidden"></span>
                                     </h2>
                                     {/* <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 2xl:grid-cols-3"> */}
-                                    <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2">
+                                    <div className="grid grid-cols-2 gap-3 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2">
                                         <PaymentRadio
                                             value="cash"
                                             icon={cod}

@@ -27,7 +27,7 @@ const ProductCard = ({ product }) => {
         >
             <Link
                 href={`/product/${uuid}`}
-                className="block product-image h-[240px] sm:h-[373px] md:h-[286px] lg:h-[270px] xl:h-[344px] 1xl:h-[417px] 2xl:h-[419px] rounded-tl-lg rounded-tr-lg overflow-hidden"
+                className="block product-image h-[240px] sm:h-[373px] md:h-[286px] lg:h-[270px] xl:h-[344px] 1xl:h-[417px] 2xl:h-[419px] rounded-tl-lg rounded-tr-lg overflow-hidden relative"
             >
                 <Image
                     src={preview_image}
@@ -36,13 +36,18 @@ const ProductCard = ({ product }) => {
                     height={320}
                     className="object-cover w-full h-full"
                 />
+                {stock < 1 && (
+                    <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-center text-white text-xl bg-black z-[9999999] opacity-80">
+                        স্টক আউট
+                    </div>
+                )}
             </Link>
             {/* <ImageRatio
                 src={preview_image ? preview_image : noAvailable}
                 initialWidth={width}
                 uuid={uuid}
             /> */}
-            <div className="product-content p-[10px] md:p-[18px] bg-white">
+            <div className="product-content p-[10px] md:p-[18px] bg-white ">
                 <Link
                     href={`/product/${uuid}`}
                     className="block mb-1 text-xs font-medium text-gray-900 md:mb-2 md:text-xl product-title ellipsis-1"

@@ -1,74 +1,39 @@
 // import products from "@/app/data/products.json";
 "use client"
-import { Suspense, useContext, useEffect, useMemo, useState } from 'react';
+import { Suspense, useContext, useEffect, useState } from 'react';
 import { IoOptions } from 'react-icons/io5';
 import ScrollContext from '../context/scrollContext';
 import SearchContext from "../reducer/SearchContext";
 import { getAllProduct } from "./../utils/getProduct";
 import ProductCard from './ProductCard';
-import SkeletonCard from './skeleton/SkeletonCard';
 
 
-const ProductList = ({ categories }) => {
+const ProductList2 = ({ categories }) => {
     const { productDivRef } = useContext(ScrollContext);
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [showProduct, setShowProduct] = useState(12);
-    const [productItem, setProductItem] = useState([]);
-    const [page, setPage] = useState(1);
-    const [totalProduct, setTotalProduct] = useState(0);
     const [selectedProducts, setSelectedProducts] = useState();
+    const [productItem, setProductItem] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+
+    useEffect(() => {
+        const allProduct = async () => {
+            const products = await getAllProduct(null, null, showProduct);
+            return products.data;
+        };
+
+        setProductItem(allProduct());
+    }, [showProduct]);
+
     const { searchQuery } = useContext(SearchContext);
-
-
-
-      const memoizedProductsArray = useMemo(() => {
-          return productItem;
-      }, [productItem]);
 
     useEffect(() => {
         const fetchProducts = async () => {
             setLoading(true);
-
             try {
-                if (!searchQuery && selectedCategory === 'all') {
-                    const productsData = await getAllProduct(
-                        null,
-                        null,
-                        page,
-                        showProduct
-                    );
-                    const newProducts = productsData.data;
-                    setTotalProduct(productsData.meta.total);
-                    setProductItem([...productItem, ...newProducts]);
-                }
-
-                if (searchQuery && searchQuery !== '') {
-                    setPage(1);
-                    const productsData = await getAllProduct(
-                        searchQuery,
-                        null,
-                        page,
-                        200
-                    );
-                    const newProducts = productsData.data;
-                    setTotalProduct(productsData.meta.total);
-                    setProductItem([...newProducts]);
-                }
-
-                if (selectedCategory !== 'all') {
-
-                    const productsData = await getAllProduct(
-                        null,
-                        selectedCategory,
-                        page,
-                        showProduct
-                    );
-                    const newProducts = productsData.data;
-                    setTotalProduct(productsData.meta.total);
-                    // setProductItem([...newProducts]);
-                    setProductItem([...productItem, ...newProducts]);
-                }
+                let productData = await getAllProduct(searchQuery);
+                setProductItem(productData.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
             } finally {
@@ -77,23 +42,76 @@ const ProductList = ({ categories }) => {
         };
 
         fetchProducts();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, searchQuery, selectedCategory]);
+    }, [searchQuery]);
 
-    const handleCategory = async (categoryName) => {
-        setSelectedCategory(categoryName);
-        setPage(1);
-        setProductItem([]);
-    };
+    // const handleAllFilter = () => {
+    //     setSelectedCategory('all');
+    //     setProductItem(products.data);
+    // }
 
     const handleAllFilter = async (categoryName) => {
-        setPage(1)
-        setSelectedCategory('all')
+        setLoading(true);
+        try {
+            setSelectedCategory('all');
+            let productData = await getAllProduct(null, null, 12);
+            setProductItem(productData.data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleSeeMore = () => {
-        setPage(page + 1);
+    const handleCategory = async (categoryName) => {
+        setLoading(true);
+        try {
+            setShowProduct(12)
+            setSelectedCategory(categoryName)
+            let productData = await getAllProduct(
+                null,
+                categoryName,
+                12
+            );
+            setProductItem(productData.data);
+            // if (productData.data.length > 12) {
+            //     if (categoryName){
+            //             setProductItem(productData.data)
+            //             setLoading(true);
+            //     }else{
+            //         setProductItem((prevProducts) => [...prevProducts, ...productData.data])
+            //     }
+            //     setSelectedProducts(productData);
+            // } else {
+            //     //setProductItem([]);
+            //     setHasMore(false);
+            // }
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        } finally {
+            setLoading(false);
+        }
     };
+
+    // const handleSeeMore = (showNumber) => {
+    //     setShowProduct((prevState) => prevState + showNumber);
+    // }
+
+        const handleSeeMore = async (showNumber) => {
+            setLoading(true);
+            try {
+                setShowProduct((prevState) => prevState + showNumber);
+                let productData = await getAllProduct(
+                    null,
+                    selectedCategory === 'all' ? null : selectedCategory,
+                    showProduct
+                );
+                setProductItem(productData.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
 
     return (
@@ -131,7 +149,9 @@ const ProductList = ({ categories }) => {
                                 <li key={category.id}>
                                     <button
                                         onClick={() =>
-                                            handleCategory(category.name)
+                                            handleCategory(
+                                                category.name
+                                            )
                                         }
                                         type="button"
                                         className={`px-3 py-1 md:px-6 md:py-[6px] text-xs sm:text-base font-normal text-gray-700 border border-gray-700 rounded-md hover:bg-gray-700 hover:text-white transition duration-150 ${
@@ -147,9 +167,9 @@ const ProductList = ({ categories }) => {
                         </ul>
                     </div>
                     <Suspense fallback={<h2>Loading...</h2>}>
-                        {memoizedProductsArray.length > 0 ? (
+                        {productItem.length > 0 ? (
                             <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px]">
-                                {memoizedProductsArray.map((product) => {
+                                {productItem.map((product) => {
                                     return (
                                         <ProductCard
                                             key={product.id}
@@ -159,28 +179,21 @@ const ProductList = ({ categories }) => {
                                 })}
                             </div>
                         ) : (
-                            <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px]">
-                                <SkeletonCard />
-                                <SkeletonCard />
-                                <SkeletonCard />
-                                <SkeletonCard />
-                            </div>
+                            <div>No products found</div>
                         )}
                     </Suspense>
 
                     <div className="flex justify-center md:pt-[70px] mt-6">
-                        {memoizedProductsArray.length >= 12 &&
-                            memoizedProductsArray.length < totalProduct &&
-                            memoizedProductsArray.length !== totalProduct && (
-                                <button
-                                    onClick={() => handleSeeMore(4)}
-                                    disabled={loading}
-                                    type="button"
-                                    className="text-base md:text-[20px] text-gray-900 font-normal border-2 border-gray-900 px-6 py-3 rounded-lg md:px-[30px] md:py-4 hover:bg-gray-900 hover:text-white transition duration-150"
-                                >
-                                    {loading ? 'Loading...' : 'আরো দেখুন'}
-                                </button>
-                            )}
+                        {productItem.length > 11 && (
+                            <button
+                                onClick={() => handleSeeMore(4)}
+                                disabled={loading}
+                                type="button"
+                                className="text-base md:text-[20px] text-gray-900 font-normal border-2 border-gray-900 px-6 py-3 rounded-lg md:px-[30px] md:py-4 hover:bg-gray-900 hover:text-white transition duration-150"
+                            >
+                                {loading ? 'Loading...' : 'আরো দেখুন'}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -188,4 +201,4 @@ const ProductList = ({ categories }) => {
     );
 };
 
-export default ProductList;
+export default ProductList2;

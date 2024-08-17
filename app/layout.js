@@ -42,15 +42,6 @@ export default function RootLayout({ children }) {
                 <ProductContext.Provider value={{ state, dispatch }}>
                     <ScrollProvider>
                         <SearchProvider>
-                            <button
-                                onClick={() =>
-                                    sendGTMEvent('event', 'buttonClicked', {
-                                        value: 'xyz',
-                                    })
-                                }
-                            >
-                                Send Event Button
-                            </button>
                             {pathname !== '/order-successfull' && <Header />}
                             {children}
                             {pathname !== '/order-successfull' && <Footer />}
@@ -58,6 +49,15 @@ export default function RootLayout({ children }) {
                         </SearchProvider>
                     </ScrollProvider>
                 </ProductContext.Provider>
+                <button
+                    onClick={() =>
+                        sendGTMEvent('event', 'SendEventButtonClicked', {
+                            value: 'Button clicked working',
+                        })
+                    }
+                >
+                    Send Event Button
+                </button>
             </body>
         </html>
     );

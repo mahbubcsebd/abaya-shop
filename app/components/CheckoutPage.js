@@ -103,7 +103,7 @@ const CheckoutPage = ({ siteSettings }) => {
 
     useEffect(() => {
         const items = cartItems.map((product) => {
-            const currentProduct = products.find((p) => p.id === product.id);
+            // const currentProduct = products.find((p) => p.id === product.id);
 
             return {
                 item_name: 'Product Name is ok',

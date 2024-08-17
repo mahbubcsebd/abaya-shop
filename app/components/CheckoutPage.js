@@ -102,12 +102,23 @@ const CheckoutPage = ({ siteSettings }) => {
     };
 
     useEffect(() => {
+        const items = cartItems.map((product) => {
+            // const currentProduct = products.find((p) => p.id === product.id);
+
+            return {
+                item_name: product.name,
+                item_id: product.id,
+                price: product.sale_price,
+                quantity: product.quantity,
+            };
+        });
+
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
         window.dataLayer.push({
             event: 'begin_checkout',
             ecommerce: {
-                items: cartItems,
+                items: items,
             },
         });
     }, [cartItems]);

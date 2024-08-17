@@ -3,6 +3,9 @@ import ProductSlider from "@/app/components/ProductSlider";
 import ReviewBox from "@/app/components/ReviewBox";
 import SocialShare from "@/app/components/SocialShare";
 import { getProduct } from "@/app/utils/getProduct";
+import { useState } from "react";
+
+
 
 export async function generateMetadata({ params }) {
     const product = await getProduct(params.uuid);
@@ -16,7 +19,15 @@ export async function generateMetadata({ params }) {
 
 
 const ProductDetails = async ({params}) => {
-    const product = await getProduct(params.uuid);
+    const [product, setProduct] = useState({});
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const product = await getProduct(params.uuid);
+            setProduct(product.data);
+        };
+    }, [params.uuid]);
+
+    // const product = await getProduct(params.uuid);
 
     const {
         id,
@@ -38,7 +49,7 @@ const ProductDetails = async ({params}) => {
         total_two_stars,
         total_one_stars,
         variants,
-    } = product.data;
+    } = product;
 
     // console.log('product' + unit_price);
 

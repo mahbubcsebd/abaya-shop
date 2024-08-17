@@ -68,15 +68,6 @@ export default function RootLayout({ children }) {
                         </SearchProvider>
                     </ScrollProvider>
                 </ProductContext.Provider>
-                <button
-                    onClick={() =>
-                        sendGTMEvent('event', 'add_to_cart', {
-                            value: 'Button clicked working',
-                        })
-                    }
-                >
-                    Send Event Button
-                </button>
             </body>
         </html>
     );

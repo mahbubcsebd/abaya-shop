@@ -101,6 +101,32 @@ const CheckoutPage = ({ siteSettings }) => {
         }
     };
 
+    useEffect(() => {
+        const items = cartItems.map((product) => {
+            const currentProduct = products.find((p) => p.id === product.id);
+
+            return {
+                item_name: 'Product Name is ok',
+                item_id: 12345,
+                price: 120,
+                item_variant: 'grey',
+                item_list_name: 'last',
+                item_list_id: '',
+                index: 0,
+                quantity: 26 || 0,
+            };
+        });
+
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+        window.dataLayer.push({
+            event: 'begin_checkout',
+            ecommerce: {
+                items: items,
+            },
+        });
+    }, [cartItems]);
+
     const handleCategoryLoadMoreClick = async (categoryName, page = 0) => {
         setLoading(true);
         try {

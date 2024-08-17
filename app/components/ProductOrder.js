@@ -94,8 +94,8 @@ const ProductOrder = ({ product }) => {
             });
 
              window.dataLayer.push({
-                 event: 'myCustomEvent',
-                 data: selectedProduct
+                 event: 'add_to_cart',
+                 selectedProduct,
              });
         } else {
             toast.error(

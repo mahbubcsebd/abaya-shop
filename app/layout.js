@@ -3,6 +3,7 @@
 import { GoogleTagManager } from '@next/third-parties/google';
 import { Poppins } from 'next/font/google';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useEffect, useReducer } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,6 +28,7 @@ const poppins = Poppins({
 
 export default function RootLayout({ children }) {
     const pathname = usePathname();
+    const router = useRouter();
 
     const [state, dispatch] = useReducer(cartReducer, initialState);
     useEffect(() => {
@@ -34,6 +36,23 @@ export default function RootLayout({ children }) {
             type: 'SET_CART',
         });
     }, []);
+
+      useEffect(() => {
+          const handleRouteChange = (url) => {
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push({
+                  event: 'pageview',
+                  page: url,
+              });
+          };
+
+          router.events.on('routeChangeComplete', handleRouteChange);
+
+          // Clean up the event listener on component unmount
+          return () => {
+              router.events.off('routeChangeComplete', handleRouteChange);
+          };
+      }, [router.events]);
 
     return (
         <html lang="en">

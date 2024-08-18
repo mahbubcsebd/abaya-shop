@@ -92,6 +92,14 @@ const ProductOrder = ({ product }) => {
             toast.success(`Added ${product.name} to Cart!`, {
                 position: 'bottom-right',
             });
+
+            // For Google Tag manager
+            window.dataLayer.push({
+                event: 'add_to_cart',
+                ecommerce: {
+                    items: selectedProduct,
+                },
+            });
         } else {
             toast.error(
                 `The product ${product.name} has already been added to the cart`,

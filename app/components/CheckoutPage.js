@@ -202,6 +202,13 @@ const CheckoutPage = ({ siteSettings }) => {
                     dispatch({
                         type: 'CLEAR_CART',
                     });
+
+                    window.dataLayer.push({
+                        event: 'purchase',
+                        ecommerce: {
+                            items: orderData,
+                        },
+                    });
                 } else {
                     toast.error(
                         `দুঃখিত! আপনার অর্ডারটি সফল হয়নি। ${responseData.message}`,
@@ -222,7 +229,9 @@ const CheckoutPage = ({ siteSettings }) => {
      useEffect(() => {
          window.dataLayer.push({
              event: 'begin_checkout',
-             ecommerce: cartItems,
+             ecommerce: {
+                 items: cartItems,
+             },
          });
      }, [cartItems]);
 

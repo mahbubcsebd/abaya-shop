@@ -1,16 +1,15 @@
 'use client';
 
-import { GoogleTagManager } from '@next/third-parties/google';
+import { GoogleTagManager } from "@next/third-parties/google";
 import { Poppins } from 'next/font/google';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
 import { useEffect, useReducer } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import { ProductContext } from './context/cartContext';
-import { ScrollProvider } from './context/scrollContext';
+import { ScrollProvider } from "./context/scrollContext";
 import './globals.css';
 import { cartReducer, initialState } from './reducer/CartReducer';
 import { SearchProvider } from './reducer/SearchContext';
@@ -28,7 +27,6 @@ const poppins = Poppins({
 
 export default function RootLayout({ children }) {
     const pathname = usePathname();
-    const router = useRouter();
 
     const [state, dispatch] = useReducer(cartReducer, initialState);
     useEffect(() => {
@@ -37,26 +35,9 @@ export default function RootLayout({ children }) {
         });
     }, []);
 
-      useEffect(() => {
-          const handleRouteChange = (url) => {
-              window.dataLayer = window.dataLayer || [];
-              window.dataLayer.push({
-                  event: 'pageview',
-                  page: url,
-              });
-          };
-
-          router.events.on('routeChangeComplete', handleRouteChange);
-
-          // Clean up the event listener on component unmount
-          return () => {
-              router.events.off('routeChangeComplete', handleRouteChange);
-          };
-      }, [router.events]);
-
     return (
         <html lang="en">
-            <GoogleTagManager gtmId="GTM-TJDRPB6Q" />
+            <GoogleTagManager gtmId="GTM-TJDRPB6Q"/>
             <body className={poppins.className}>
                 <ProductContext.Provider value={{ state, dispatch }}>
                     <ScrollProvider>

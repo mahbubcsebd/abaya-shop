@@ -92,11 +92,6 @@ const ProductOrder = ({ product }) => {
             toast.success(`Added ${product.name} to Cart!`, {
                 position: 'bottom-right',
             });
-
-             window.dataLayer.push({
-                 event: 'add_to_cart',
-                 selectedProduct,
-             });
         } else {
             toast.error(
                 `The product ${product.name} has already been added to the cart`,

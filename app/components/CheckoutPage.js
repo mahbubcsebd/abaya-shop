@@ -15,9 +15,10 @@ import { getCoupon } from '../utils/getCoupon';
 import { orderPost } from '../utils/orderPost';
 
 const CheckoutPage = ({ siteSettings }) => {
-    const [total, setTotal] = useState(0)
+    const [total, setTotal] = useState(0);
     const [couponApply, setCouponApply] = useState(true);
     const [couponCode, setCouponCode] = useState('');
+    const [productStock, setProductStock] = useState(0);
 
     const handleCodeChange = (event) => {
         setCouponCode(event.target.value);
@@ -58,7 +59,7 @@ const CheckoutPage = ({ siteSettings }) => {
 
     const handleApply = async () => {
         try {
-            if(couponCode === "") {
+            if (couponCode === '') {
                 toast.error(`কুপন কোড দিন`, {
                     position: 'bottom-right',
                 });
@@ -90,7 +91,7 @@ const CheckoutPage = ({ siteSettings }) => {
                     });
                 }
             } else {
-                if(couponCode) {
+                if (couponCode) {
                     toast.error(`"কুপন সফল হয়নি"`, {
                         position: 'bottom-right',
                     });
@@ -98,56 +99,6 @@ const CheckoutPage = ({ siteSettings }) => {
             }
         } catch (error) {
             console.error('Error fetching coupon:', error);
-        }
-    };
-
-    useEffect(() => {
-        const items = cartItems.map((product) => {
-            // const currentProduct = products.find((p) => p.id === product.id);
-
-            return {
-                item_name: product.name,
-                item_id: product.id,
-                price: product.sale_price,
-                quantity: product.quantity,
-            };
-        });
-
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-        window.dataLayer.push({
-            event: 'begin_checkout',
-            ecommerce: {
-                items: items,
-            },
-        });
-    }, [cartItems]);
-
-    const handleCategoryLoadMoreClick = async (categoryName, page = 0) => {
-        setLoading(true);
-        try {
-            setSelectedCategory(categoryName);
-            let prevPage = page + 1;
-            let productData = await getAllProduct(null, categoryName, prevPage);
-            if (productData.data.length > 4) {
-                if (categoryName) {
-                    setProductItem(productData.data);
-                    setLoading(true);
-                } else {
-                    setProductItem((prevProducts) => [
-                        ...prevProducts,
-                        ...productData.data,
-                    ]);
-                }
-                setSelectedProducts(productData);
-            } else {
-                //setProductItem([]);
-                setHasMore(false);
-            }
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -199,18 +150,6 @@ const CheckoutPage = ({ siteSettings }) => {
         });
     };
 
-    // const handleChange = (event) => {
-    //     setSelectedValue(event.target.value);
-
-    //     if (event.target.value === 'inside_dhaka') {
-    //         setShippingCost(80);
-    //     }
-
-    //     if (event.target.value === 'outside_dhaka') {
-    //         setShippingCost(120);
-    //     }
-    // };
-
     const handlePaymentChange = (event) => {
         setSelectedPayment(event.target.value);
     };
@@ -219,13 +158,7 @@ const CheckoutPage = ({ siteSettings }) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
-        console.log(data);
-        const {
-            name,
-            address,
-            phone,
-            spacial_instruction,
-        } = data;
+        const { name, address, phone, spacial_instruction } = data;
 
         if (name === '' || name === null || name === undefined) {
             setNameWarningMessage('Name is required');
@@ -269,14 +202,29 @@ const CheckoutPage = ({ siteSettings }) => {
                     dispatch({
                         type: 'CLEAR_CART',
                     });
+                } else {
+                    toast.error(
+                        `দুঃখিত! আপনার অর্ডারটি সফল হয়নি। ${responseData.message}`,
+                        {
+                            position: 'bottom-right',
+                        }
+                    );
                 }
             } else {
-                throw new Error('Failed to submit review');
+                throw new Error('Failed to submit Order');
             }
         } catch (error) {
             console.error('Error submitting review:', error);
         }
     };
+
+    // For Google tag manager
+     useEffect(() => {
+         window.dataLayer.push({
+             event: 'begin_checkout',
+             ecommerce: cartItems,
+         });
+     }, [cartItems]);
 
     return (
         <div
@@ -451,15 +399,16 @@ const CheckoutPage = ({ siteSettings }) => {
                                                         ) => (
                                                             <li
                                                                 key={product.id}
+                                                                className={` ${
+                                                                    index ===
+                                                                    cartArray.length -
+                                                                        1
+                                                                        ? 'border-b-0'
+                                                                        : 'pb-3 border-b border-gray-400'
+                                                                }`}
                                                             >
                                                                 <div
-                                                                    className={`flex items-start gap-[14px] ${
-                                                                        index ===
-                                                                        cartArray.length -
-                                                                            1
-                                                                            ? 'border-b-0'
-                                                                            : 'pb-3 border-b border-gray-400'
-                                                                    }`}
+                                                                    className={`flex items-start gap-[14px]`}
                                                                 >
                                                                     <div>
                                                                         <div className="w-[90px] h-[104px] sm:w-[95px] sm:h-[112px] md:w-[110px] md:h-[118px] lg:w-[84px] lg:h-[90px] xl:w-[110px] xl:h-[120px] rounded-[10px] overflow-hidden">
@@ -526,6 +475,10 @@ const CheckoutPage = ({ siteSettings }) => {
                                                                                             product.id
                                                                                         )
                                                                                     }
+                                                                                    disabled={
+                                                                                        product.quantity >=
+                                                                                        product.stock
+                                                                                    }
                                                                                     className="flex items-center justify-center w-6 h-6 text-xs text-gray-600 bg-white rounded-md quantity-increment"
                                                                                 >
                                                                                     <FaPlus />
@@ -566,6 +519,25 @@ const CheckoutPage = ({ siteSettings }) => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                {product.stock ===
+                                                                    product.quantity && (
+                                                                    <p className="pt-1 text-xs text-red-500">
+                                                                        {' '}
+                                                                        আপনি
+                                                                        সর্বোচ্চ{' '}
+                                                                        {
+                                                                            product.stock
+                                                                        }{' '}
+                                                                        টি
+                                                                        প্রোডাক্ট
+                                                                        অর্ডার
+                                                                        করতে
+                                                                        পারবেন।
+                                                                        এর বেশি
+                                                                        স্টকে
+                                                                        নেই।{' '}
+                                                                    </p>
+                                                                )}
                                                             </li>
                                                         )
                                                     )}

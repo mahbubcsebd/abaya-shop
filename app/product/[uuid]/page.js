@@ -40,19 +40,6 @@ const ProductDetails = async ({params}) => {
         variants,
     } = product.data;
 
-    // console.log('product' + unit_price);
-
-    // const remainingArray = attributes.filter((attr) => attr.attribute_group.name !== 'Color' && attr.attribute_group.name !== 'Size');
-
-    // For Google tag manager
-    useEffect(() => {
-        window.dataLayer.push({
-            event: 'view_item',
-            ecommerce: {
-                items: product.data,
-            },
-        });
-    }, [product.data]);
     return (
         <div className="pt-[68px] pb-6 lg:pt-[170px] md:pb-20 product-details-page">
             <div className="product-details-area">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import noAvailable from '../assets/icons/no-available.svg';
@@ -19,6 +19,15 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 const ProductSlider = ({ product }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const {product_images} = product;
+
+    useEffect(() => {
+        window.dataLayer.push({
+            event: 'view_item',
+            ecommerce: {
+                items: product,
+            },
+        });
+    }, [product]);
 
     return (
         <div className="product-slider">

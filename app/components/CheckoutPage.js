@@ -233,7 +233,7 @@ const CheckoutPage = ({ siteSettings }) => {
                  items: cartItems,
              },
          });
-     }, [cartItems]);
+     });
 
     return (
         <div

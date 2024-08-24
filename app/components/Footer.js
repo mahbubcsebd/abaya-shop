@@ -128,7 +128,7 @@ const Footer = () => {
                                     href="https://newexsoft.com/"
                                     target="_blank"
                                 >
-                                    newexfoft
+                                    newexsoft
                                 </Link>
                             </p>
                         </div>

@@ -26,7 +26,7 @@ const FacebookChatPlugin = ({ pageId = '407648569098327', apiVersion = 'v16.0', 
                 fjs.parentNode.insertBefore(js, fjs);
             })(document, 'script', 'facebook-jssdk');
         }
-    }, [pageId]);
+    }, [pageId, apiVersion]);
 
     return (
         <>

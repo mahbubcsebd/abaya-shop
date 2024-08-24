@@ -1,5 +1,6 @@
 'use client';
 
+import messanger from "@/app/assets/icons/messanger.svg";
 import whatsapp from "@/app/assets/icons/whatsapp.svg";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { Poppins } from 'next/font/google';
@@ -65,6 +66,17 @@ export default function RootLayout({ children }) {
                                         className="w-full h-full"
                                         src={whatsapp}
                                         alt="whatsapp"
+                                    />
+                                </Link>
+                                <Link
+                                    className="overflow-hidden w-9 h-9"
+                                    target="_blank"
+                                    href="https://m.me/407648569098327"
+                                >
+                                    <Image
+                                        className="w-full h-full"
+                                        src={messanger}
+                                        alt="messanger"
                                     />
                                 </Link>
                                 <FacebookChatPlugin />

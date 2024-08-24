@@ -59,7 +59,7 @@ export default function RootLayout({ children }) {
                                 <Link
                                     className="overflow-hidden w-9 h-9"
                                     target="_blank"
-                                    href="https://wa.me/1869088855"
+                                    href="https://wa.me/8801869088855"
                                 >
                                     <Image
                                         className="w-full h-full"

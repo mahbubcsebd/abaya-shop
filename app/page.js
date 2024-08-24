@@ -20,6 +20,7 @@ const Home = async () => {
                 // products={products}
                 categories={categories.data}
             />
+            {/* <ReviewSlider /> */}
         </>
     );
 };

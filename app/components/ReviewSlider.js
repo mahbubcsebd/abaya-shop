@@ -11,7 +11,7 @@ import 'swiper/css/pagination';
 import './hero.css';
 
 // import required modules
-import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, EffectFade, Navigation, Pagination, Thumbs } from 'swiper/modules';
 
 const ReviewSlider = () => {
     return (

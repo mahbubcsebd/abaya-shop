@@ -20,6 +20,7 @@ const ProductSlider = ({ product }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const {product_images} = product;
 
+    // For Google tag manager
     useEffect(() => {
         window.dataLayer.push({
             event: 'view_item',

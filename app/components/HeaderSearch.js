@@ -22,6 +22,7 @@ const router = useRouter();
     const handleInputChange = (event) => {
         setSearch(event.target.value);
     };
+
     const handleSearch = (event) => {
         event.preventDefault();
         setSearchQuery(search);

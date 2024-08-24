@@ -14,20 +14,20 @@ const PrivacyPolicy = () => {
                 <div className="container">
                     <div className="">
                         <div className="mb-6 lg:mb-8 single-area">
-                            <h2 className="pb-1 lg:pb-2 mb-4 text-2xl lg:text-3xl font-semibold text-gray-900 border-b border-gray-400">
+                            <h2 className="pb-1 mb-4 text-2xl font-semibold text-gray-900 border-b border-gray-400 lg:pb-2 lg:text-3xl">
                                 গোপনীয়তা নীতি
                             </h2>
                             <p className="text-base font-normal text-gray-600">
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
                                 আপনার গোপনীয়তাকে সম্মান করে।{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -42,7 +42,7 @@ const PrivacyPolicy = () => {
                                 দেওয়া হচ্ছে।{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -51,7 +51,7 @@ const PrivacyPolicy = () => {
                                 পদ্ধতিতে{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -82,41 +82,41 @@ const PrivacyPolicy = () => {
                                 সনাক্তযোগ্য তথ্য সংগ্রহ করতে পারি -
                             </p>
                             <ul className="grid gap-3 mt-3 ml-8">
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আপনার নাম।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     ইমেইল ঠিকানা (বিকল্প)।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     মোবাইল ফোন নম্বর এবং যোগাযোগের বিবরণ।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     জিপ/পোস্টাল কোড।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আর্থিক তথ্য (যেমন অ্যাকাউন্ট বা ক্রেডিট
                                     কার্ড নম্বর) - আমাদের ওয়েবসাইটের
                                     বৈশিষ্ট্যগুলির মতামত।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আমাদের নিবন্ধন প্রক্রিয়া অনুযায়ী অন্যান্য
                                     তথ্য।
@@ -128,28 +128,28 @@ const PrivacyPolicy = () => {
                                 আমরা নিম্নলিখিত তথ্য সংগ্রহ করতে পারি
                             </h2>
                             <ul className="grid gap-3 mt-3 mb-5 ml-4 md:ml-8">
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আপনার পরিদর্শন/অ্যাক্সেস করা পৃষ্ঠাগুলি
                                     সম্পর্কে।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আপনি আমাদের সাইটে ক্লিক করুন লিঙ্ক।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আপনি পৃষ্ঠাটি অ্যাক্সেস করার সংখ্যা।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আপনি আমাদের ওয়েব সাইটে কতবার কেনাকাটা
                                     করেছেন।
@@ -190,30 +190,30 @@ const PrivacyPolicy = () => {
                                     আমরা আপনার ব্যক্তিগত তথ্য ব্যবহার করি:
                                 </p>
                                 <ul className="grid gap-3 mt-3 mb-5 ml-4 md:ml-8">
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আপনার আগ্রহগুলি জেনে এবং আমাদের সাইটটিকে
                                         সেই অনুসারে তৈরি করে আমাদের বন্ধনকে আরও
                                         শক্তিশালী করুন৷
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         প্রয়োজনে আপনার সাথে যোগাযোগ করার জন্য
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আপনার দ্বারা অনুরোধ করা পরিষেবা প্রদান
                                         করতে
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         বিদ্যমান আইন বা নীতি দ্বারা পরিচালিত
                                         সামাজিক ইতিহাস সংরক্ষণ করা
@@ -226,23 +226,23 @@ const PrivacyPolicy = () => {
                                     করি:
                                 </p>
                                 <ul className="grid gap-3 mt-3 mb-5 ml-4 md:ml-8">
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         পণ্যের উন্নতির জন্য আমাদের প্রচেষ্টাকে
                                         নির্দেশ করুন
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         একজন জরিপ উত্তরদাতা হিসাবে আপনার সাথে
                                         যোগাযোগ করুন
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আপনি কোন প্রতিযোগিতায় জিতলে আপনাকে
                                         অবহিত করুন এবং আমাদের প্রতিযোগিতার
@@ -257,25 +257,25 @@ const PrivacyPolicy = () => {
                                     করি:
                                 </p>
                                 <ul className="grid gap-3 mt-3 mb-5 ml-4 md:ml-8">
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         বিজ্ঞাপন এবং সম্পাদকীয় উভয় দৃষ্টিকোণ
                                         থেকে আপনাকে আরও ভাল এবং আরও ব্যক্তিগতকৃত
                                         পরিষেবা সরবরাহ করতে আপনি কে তা আমাদের
                                         মনে করিয়ে দিন
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আমাদের ওয়েবসাইটগুলিতে আপনার অ্যাক্সেসের
                                         বিশেষাধিকারগুলি চিনুন
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আমাদের কিছু প্রচার, সুইপস্টেক এবং
                                         প্রতিযোগিতায় আপনার এন্ট্রিগুলি ট্র্যাক
@@ -283,23 +283,23 @@ const PrivacyPolicy = () => {
                                         অগ্রগতি নির্দেশ করতে এবং পুরস্কার অঙ্কনে
                                         এন্ট্রি, জমা এবং স্থিতি ট্র্যাক করতে
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         নিশ্চিত করুন যে আপনি একই বিজ্ঞাপন বারবার
                                         দেখতে পাচ্ছেন না
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আমাদের সার্ভারের সমস্যা নির্ণয় করতে
                                         সাহায্য করুন
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আমাদের ওয়েবসাইটগুলি পরিচালনা করুন,
                                         আপনার সেশন ট্র্যাক করুন যাতে লোকেরা
@@ -321,22 +321,22 @@ const PrivacyPolicy = () => {
                                     সনাক্তযোগ্য তথ্য প্রকাশ করব না যদি না:
                                 </p>
                                 <ul className="grid gap-3 mt-3 mb-5 ml-4 md:ml-8">
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আমাদের আপনার অনুমতি আছে
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আপনার অনুরোধ করা পণ্য বা পরিষেবা প্রদান
                                         করতে
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         <div>
                                             বেআইনি ও বেআইনি কার্যকলাপ,
@@ -345,7 +345,7 @@ const PrivacyPolicy = () => {
                                             সম্ভাব্য হুমকি,{' '}
                                             <Link
                                                 href="/"
-                                                className="text-blue-600"
+                                                className="inline-block font-semibold"
                                             >
                                                 abayaa.shop
                                             </Link>{' '}
@@ -355,18 +355,18 @@ const PrivacyPolicy = () => {
                                             সাহায্য করতে
                                         </div>
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         বিশেষ পরিস্থিতিতে যেমন সাবপোনা মেনে চলা,
                                         আদালতের আদেশ, অনুরোধ/আদেশ, আইনী
                                         কর্তৃপক্ষ বা আইন প্রয়োগকারী সংস্থার
                                         নোটিশ যা এই ধরনের প্রকাশের প্রয়োজন।
                                     </li>
-                                    <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                    <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                         <p>
-                                            <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                            <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                         </p>
                                         আমরা শুধুমাত্র সামগ্রিক ভিত্তিতে
                                         বিজ্ঞাপনদাতাদের সাথে আপনার তথ্য শেয়ার
@@ -386,7 +386,7 @@ const PrivacyPolicy = () => {
                                     অপ্ট-ইন বা অপ্ট-আউট করতে পারেন।{' '}
                                     <Link
                                         href="/"
-                                        className="text-blue-600"
+                                        className="inline-block font-semibold"
                                     >
                                         abayaa.shop
                                     </Link>{' '}
@@ -394,7 +394,7 @@ const PrivacyPolicy = () => {
                                     আপনার{' '}
                                     <Link
                                         href="/"
-                                        className="text-blue-600"
+                                        className="inline-block font-semibold"
                                     >
                                         abayaa.shop
                                     </Link>{' '}

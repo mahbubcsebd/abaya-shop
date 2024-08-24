@@ -18,7 +18,8 @@ const ProductList = ({ categories }) => {
     const [totalProduct, setTotalProduct] = useState(0);
     const [selectedProducts, setSelectedProducts] = useState();
     const [loading, setLoading] = useState(false);
-    const { searchQuery } = useContext(SearchContext);
+    const [isSeeMoreClick, setIsSeeMoreClick] = useState(false);
+    const { searchQuery, setSearchQuery } = useContext(SearchContext);
 
 
 
@@ -28,9 +29,8 @@ const ProductList = ({ categories }) => {
 
     useEffect(() => {
         const fetchProducts = async () => {
-            setLoading(true);
-
             try {
+                setLoading(true);
                 if (!searchQuery && selectedCategory === 'all') {
                     const productsData = await getAllProduct(
                         null,
@@ -41,9 +41,7 @@ const ProductList = ({ categories }) => {
                     const newProducts = productsData.data;
                     setTotalProduct(productsData.meta.total);
                     setProductItem([...productItem, ...newProducts]);
-                }
-
-                if (searchQuery && searchQuery !== '') {
+                } else if (searchQuery && searchQuery !== '') {
                     setPage(1);
                     const productsData = await getAllProduct(
                         searchQuery,
@@ -54,9 +52,7 @@ const ProductList = ({ categories }) => {
                     const newProducts = productsData.data;
                     setTotalProduct(productsData.meta.total);
                     setProductItem([...newProducts]);
-                }
-
-                if (selectedCategory !== 'all') {
+                } else if (selectedCategory !== 'all') {
 
                     const productsData = await getAllProduct(
                         null,
@@ -81,18 +77,23 @@ const ProductList = ({ categories }) => {
     }, [page, searchQuery, selectedCategory]);
 
     const handleCategory = async (categoryName) => {
+        setIsSeeMoreClick(false);
+        setSearchQuery('');
         setSelectedCategory(categoryName);
         setPage(1);
         setProductItem([]);
     };
 
     const handleAllFilter = async (categoryName) => {
-        setPage(1)
-        setSelectedCategory('all')
+        setSearchQuery('');
+        setPage(1);
+        setProductItem([]);
+        setSelectedCategory('all');
     };
 
     const handleSeeMore = () => {
         setPage(page + 1);
+        setIsSeeMoreClick(true)
     };
 
 
@@ -147,23 +148,31 @@ const ProductList = ({ categories }) => {
                         </ul>
                     </div>
                     <Suspense fallback={<h2>Loading...</h2>}>
-                        {memoizedProductsArray.length > 0 ? (
+                        {loading && !isSeeMoreClick ? (
                             <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px]">
-                                {memoizedProductsArray.map((product) => {
-                                    return (
-                                        <ProductCard
-                                            key={product.id}
-                                            product={product}
-                                        />
-                                    );
-                                })}
+                                <SkeletonCard />
+                                <SkeletonCard />
+                                <SkeletonCard />
+                                <SkeletonCard />
+                            </div>
+                        ) : memoizedProductsArray.length > 0 ? (
+                            <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px]">
+                                {memoizedProductsArray.map((product) => (
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
+                                    />
+                                ))}
                             </div>
                         ) : (
-                            <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px]">
-                                <SkeletonCard />
-                                <SkeletonCard />
-                                <SkeletonCard />
-                                <SkeletonCard />
+                            <div className="flex justify-center pt-10 text-gray-600">
+                                {searchQuery && (
+                                    <h2 className="text-2xl font-normal">
+                                        দুঃখিত{' '}
+                                        <span className="font-semibold">{`"${searchQuery}"`}</span>{' '}
+                                        প্রোডাক্ট টি পাওয়া যায় নি।
+                                    </h2>
+                                )}
                             </div>
                         )}
                     </Suspense>

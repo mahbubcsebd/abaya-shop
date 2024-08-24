@@ -37,6 +37,7 @@ const CheckoutPage = ({ siteSettings }) => {
     const [nameWarningMessage, setNameWarningMessage] = useState(null);
     // const [emailWarningMessage, setEmailWarningMessage] = useState(null);
     const [phoneWarningMessage, setPhoneWarningMessage] = useState(null);
+    const [phoneValidMsg, setPhoneValidMsg] = useState(null);
     const [addressWarningMessage, setAddressWarningMessage] = useState(null);
 
     const { state, dispatch } = useContext(ProductContext);
@@ -105,6 +106,7 @@ const CheckoutPage = ({ siteSettings }) => {
     const orderedProduct = [];
     cartItems.map((product) =>
         orderedProduct.push({
+            product_name: product.name,
             product_id: product.id,
             quantity: product.quantity,
             price:
@@ -150,6 +152,18 @@ const CheckoutPage = ({ siteSettings }) => {
         });
     };
 
+    // const handleChange = (event) => {
+    //     setSelectedValue(event.target.value);
+
+    //     if (event.target.value === 'inside_dhaka') {
+    //         setShippingCost(80);
+    //     }
+
+    //     if (event.target.value === 'outside_dhaka') {
+    //         setShippingCost(120);
+    //     }
+    // };
+
     const handlePaymentChange = (event) => {
         setSelectedPayment(event.target.value);
     };
@@ -161,19 +175,24 @@ const CheckoutPage = ({ siteSettings }) => {
         const { name, address, phone, spacial_instruction } = data;
 
         if (name === '' || name === null || name === undefined) {
-            setNameWarningMessage('Name is required');
+            setNameWarningMessage('নাম আবশ্যক');
         } else {
             setNameWarningMessage(null);
         }
 
         if (phone === '' || phone === null || phone === undefined) {
-            setPhoneWarningMessage('Phone is required');
+            setPhoneWarningMessage('ফোন নাম্বার আবশ্যক');
         } else {
-            setPhoneWarningMessage(null);
+            if(phone.length === 11) {
+                setPhoneWarningMessage(null);
+            } else {
+                setPhoneWarningMessage('আপনি ভুল নাম্বার দিয়েছেন');
+                return;
+            }
         }
 
         if (address === '' || address === null || address === undefined) {
-            setAddressWarningMessage('Address is required');
+            setAddressWarningMessage('ঠিকানা আবশ্যক');
         } else {
             setAddressWarningMessage(null);
         }
@@ -202,7 +221,7 @@ const CheckoutPage = ({ siteSettings }) => {
                     dispatch({
                         type: 'CLEAR_CART',
                     });
-
+                    // For Google tag manager
                     window.dataLayer.push({
                         event: 'purchase',
                         ecommerce: {
@@ -226,15 +245,15 @@ const CheckoutPage = ({ siteSettings }) => {
     };
 
     // For Google tag manager
-     useEffect(() => {
-         window.dataLayer.push({
-             event: 'begin_checkout',
-             ecommerce: {
-                 items: cartItems,
-             },
-         });
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-     },[]);
+    useEffect(() => {
+        window.dataLayer.push({
+            event: 'begin_checkout',
+            ecommerce: {
+                items: cartItems,
+            },
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div
@@ -256,29 +275,6 @@ const CheckoutPage = ({ siteSettings }) => {
                                     <span className="w-9 h-[2px] bg-[#086CD9] lg:hidden"></span>
                                 </h2>
                                 <div className="lg:p-[30px] lg:rounded-[20px] lg:bg-white">
-                                    {/* <div className="flex flex-col lg:flex-row items-start lg:items-center gap-[10px] lg:gap-4 mb-[30px]">
-                                        <RadioButton
-                                            label="ঢাকার ভিতরে"
-                                            value="inside_dhaka"
-                                            name="delivery_location"
-                                            checked={
-                                                selectedValue === 'inside_dhaka'
-                                            }
-                                            onChange={handleChange}
-                                            deliveryCharge="৮০"
-                                        />
-                                        <RadioButton
-                                            label="ঢাকার বাহিরে"
-                                            value="outside_dhaka"
-                                            name="delivery_location"
-                                            checked={
-                                                selectedValue ===
-                                                'outside_dhaka'
-                                            }
-                                            onChange={handleChange}
-                                            deliveryCharge="১২০"
-                                        />
-                                    </div> */}
                                     <div className="grid gap-[18px] lg:gap-6">
                                         <Input
                                             label="আপনার নাম লিখুন"

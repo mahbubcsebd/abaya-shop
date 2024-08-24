@@ -62,7 +62,7 @@ const Footer = () => {
                             </p>
                             <div className="grid items-center justify-between gap-3 lg:grid-cols-3 lg:flex-row lg:gap-4">
                                 <div>
-                                    <ul className='grid gap-3'>
+                                    <ul className="grid gap-3">
                                         <li>
                                             <Link
                                                 href="/terms-and-conditions"
@@ -117,9 +117,21 @@ const Footer = () => {
                 <hr className="border-gray-600" />
                 <div className="container">
                     <div className="lg:flex justify-between items-center py-[30px] hidden">
-                        <p className="text-lg font-normal text-gray-400">
-                            © All rights reserved Abaya Avenue.
-                        </p>
+                        <div>
+                            <p className="mb-2 text-lg font-normal text-gray-400">
+                                © All rights reserved Abaya Avenue.
+                            </p>
+                            <p className="text-lg font-normal text-gray-400">
+                                developed by{' '}
+                                <Link
+                                    className="text-blue-600"
+                                    href="https://newexsoft.com/"
+                                    target="_blank"
+                                >
+                                    newexfoft
+                                </Link>
+                            </p>
+                        </div>
                         <div className="flex items-center gap-4">
                             <p className="text-[20px] font-normal text-gray-400 relative">
                                 পেমেন্ট মাধ্যম :
@@ -261,9 +273,19 @@ const Footer = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-center bg-gray-700">
-                        <p className="py-5 text-lg font-normal text-white lg:hidden">
+                    <div className="flex flex-col items-center justify-center py-5 bg-gray-700 lg:hidden">
+                        <p className="mb-2 text-lg font-normal text-white">
                             © All rights reserved Abaya Avenue.
+                        </p>
+                        <p className="text-lg font-normal text-white">
+                            developed by{' '}
+                            <Link
+                                className="text-white"
+                                href="https://newexsoft.com/"
+                                target="_blank"
+                            >
+                                newexsoft
+                            </Link>
                         </p>
                     </div>
                 </div>

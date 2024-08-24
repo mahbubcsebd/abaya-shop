@@ -13,7 +13,7 @@ const TermsAndConditions = () => {
                 <div className="container">
                     <div className="mt-10">
                         <div className="mb-6 lg:mb-8 single-area">
-                            <h2 className="pb-1 lg:pb-2 mb-4 text-2xl lg:text-3xl font-semibold text-gray-900 border-b border-gray-400">
+                            <h2 className="pb-1 mb-4 text-2xl font-semibold text-gray-900 border-b border-gray-400 lg:pb-2 lg:text-3xl">
                                 নিয়ম ও শর্তাদি
                             </h2>
                             <p className="text-base font-normal text-gray-600">
@@ -23,7 +23,7 @@ const TermsAndConditions = () => {
                                 -এ (
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>
@@ -70,20 +70,20 @@ const TermsAndConditions = () => {
                             <p className="text-base font-normal text-gray-600">
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
-                                </Link>
+                                </Link>{' '}
                                 এই ওয়েবসাইটের মাধ্যমে অনেক রকমের পণ্য বিক্রয়
                                 সেবা দেয়। এই সব সেবাকে মিলে "পরিষেবা" বলা হয়।
                                 ওয়েবসাইটে দেওয়া বিভিন্ন পেমেন্ট পদ্ধতির মধ্যে
                                 যে কোনোটা দিয়ে পণ্য কেনা যায়। অর্ডার করার পর,{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
-                                </Link>
+                                </Link>{' '}
                                 আপনাকে পণ্যটি পাঠিয়ে দেবে এবং আপনি তার
                                 মূল্যায়ন মেটানোর দায়ী হবেন।
                             </p>
@@ -97,7 +97,7 @@ const TermsAndConditions = () => {
                                 এবং একমত হন যে, তিনি{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -120,21 +120,21 @@ const TermsAndConditions = () => {
                                 এর মধ্যে যে কোনো একটা ব্যবহার করতে পারবেন।
                             </p>
                             <ul className="grid gap-3 mt-3 ml-8">
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     কার্টে যদি কোনো ফ্রি ডেলিভারি পণ্য থাকে:
                                     তাহলে কুপন ছাড় শুধুমাত্র সেই পণ্যগুলোতেই
                                     পাওয়া যাবে যারা ফ্রী ডেলিভারির অন্তর্ভুক্ত
                                     নয়।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আপনি যদি কোনো ছাড় দেওয়া পেমেন্ট গেটওয়ে
-                                    দিয়ে পেমেন্ট করেন: তাহলে কুপন ছাড় পাওয়া
+                                    দিয়ে পেমেন্ট করেন, তাহলে কুপন ছাড় পাওয়া
                                     যাবে না।
                                 </li>
                             </ul>
@@ -146,7 +146,7 @@ const TermsAndConditions = () => {
                             <p className="text-base font-normal text-gray-600">
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -159,7 +159,7 @@ const TermsAndConditions = () => {
                                 বর্তমান বা ত্রুটি-মুক্ত।
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -206,9 +206,9 @@ const TermsAndConditions = () => {
                                 কর্তৃপক্ষ কোনোভাবে দায়গ্রস্ত হবে না।
                             </p>
                             <ul className="grid gap-3 mt-3 mb-6 ml-8">
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     যেকোনো প্রডাক্ট অর্ডার করার পর ডেলিভারি
                                     ম্যান যখন আপনার ঠিকানায় যাবে, আপনি তখন
@@ -218,9 +218,9 @@ const TermsAndConditions = () => {
                                     রিটার্ন দিতে পারেন, একারণে ডেলিভারি চার্জ
                                     দিতে হবে না।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     ডেলিভারি ম্যান চলে যাবার পর যদি প্রোডাক্টের
                                     মধ্যে আমাদের পক্ষ থেকে কোনো ভুল পান যেমন-
@@ -233,9 +233,9 @@ const TermsAndConditions = () => {
                                     আগের টি ফেরত দিয়ে দিবেন, ৩ দিনের ভেতর হতে
                                     হবে।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আপনি প্রডাক্ট সমপর্কে যা যা তথ্য দিবেন,
                                     যেমন-সাইজ,লং,ঘের, ইত্যাদি আপনি যেমন বলে
@@ -249,9 +249,9 @@ const TermsAndConditions = () => {
                                     শুধু ডেলিভারি চার্জ টা দিয়ে পণ্য রিটার্ন
                                     করতে হবে।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     রিটার্ন পলিসির ক্ষেত্রে এমন যদি হয় যে
                                     প্রোডাক্টের সবকিছু শতভাগ ঠিক আছে, যেটা
@@ -277,39 +277,39 @@ const TermsAndConditions = () => {
                                 কর্তৃপক্ষ কোনোভাবে দায়গ্রস্ত হবে না।
                             </p>
                             <ul className="grid gap-3 mt-3 mb-6 ml-8">
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     এটি প্রসবের তারিখ থেকে 03 দিনের মধ্যে।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     ফেরত দেওয়া বা বিনিময় করা সমস্ত আইটেম
                                     অবশ্যই অব্যবহৃত হতে হবে এবং তাদের আসল
                                     অবস্থায় সমস্ত আসল ট্যাগ এবং প্যাকেজিং অক্ষত
                                     থাকতে হবে এবং ভাঙা বা টেম্পার করা উচিত নয়।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     যদি আইটেমটি একটি বিনামূল্যের প্রচারমূলক
                                     আইটেম নিয়ে আসে, তাহলে বিনামূল্যের আইটেমটিও
                                     ফেরত দিতে হবে।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     পণ্যের জন্য অর্থ ফেরত/প্রতিস্থাপন আবায়া
                                     এভিনিউ টিম দ্বারা পরিদর্শন এবং চেক সাপেক্ষে।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     প্রতিস্থাপন সরবরাহকারীর কাছে স্টকের
                                     প্রাপ্যতা সাপেক্ষে। যদি পণ্যটি স্টকের বাইরে
@@ -329,28 +329,28 @@ const TermsAndConditions = () => {
                                 রিটার্ন এবং পরিবর্তন জন্য কারণ
                             </h2>
                             <ul className="grid gap-3 mt-3 ml-8">
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     পণ্য ক্ষতিগ্রস্থ, ত্রুটিপূর্ণ বা বর্ণিত
                                     হিসাবে না.
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     পোশাকের জন্য মাপ অমিল।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     পোশাকের রঙের অমিল।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     ভুল পণ্য পাঠানো হয়েছে।
                                 </li>
@@ -361,8 +361,8 @@ const TermsAndConditions = () => {
                                 কিভাবে ফেরত করবেন
                             </h2>
                             <p className="text-base font-normal text-gray-600">
-                                আপনার অর্ডার পাওয়ার পর 03 দিনের মধ্যে
-                                info@abayaa.shop এ ইমেল করে{' '}
+                                আপনার অর্ডার পাওয়ার পর 03 দিনের মধ্যে {' '}
+                                <span className='inline-block font-semibold'>info@abayaa.shop</span> এ ইমেল করে{' '}
                                 <span className="inline-block font-semibold">
                                     আবায়া এভিনিউ
                                 </span>{' '}
@@ -382,9 +382,9 @@ const TermsAndConditions = () => {
                                 ফেরত দেওয়া নীতি
                             </h2>
                             <ul className="grid gap-3 mt-3 ml-8">
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আমরা আপনার রিটার্ন মূল্যায়ন সম্পূর্ণ করার
                                     পরে ফেরত প্রক্রিয়া করা হবে। প্রতিস্থাপন
@@ -396,33 +396,33 @@ const TermsAndConditions = () => {
                                     চার্জ আপনার অর্ডারের ফেরত মূল্যে অন্তর্ভুক্ত
                                     করা হবে না কারণ এইগুলি অ-ফেরতযোগ্য চার্জ।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আপনি যদি ক্যাশ অন ডেলিভারি (সিওডি) নির্বাচন
                                     করে থাকেন, তাহলে ফেরত দিতে হবে না কারণ আপনি
                                     আপনার অর্ডারের জন্য অর্থপ্রদান করেননি।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     ক্রেডিট কার্ড, ডেবিট কার্ড, মোবাইল ব্যাঙ্কিং
                                     বা ব্যাঙ্ক ট্রান্সফার ব্যবহার করে করা
                                     অর্থপ্রদানের জন্য, আপনি আপনার নিজ নিজ অর্থ
                                     ফেরত পাবেন।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     কারিগরি ত্রুটির কারণে আরও একবার অনলাইনে
                                     পেমেন্ট করা হলে, পেমেন্ট ফেরত দেওয়া হবে।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     আপনি 7-10 কার্যদিবসের মধ্যে যেকোনো সময় ফেরত
                                     পাবেন। আপনি যদি এই সময়ের মধ্যে ফেরত না পান,
@@ -528,7 +528,7 @@ const TermsAndConditions = () => {
                                 আপনি যদি{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -544,7 +544,7 @@ const TermsAndConditions = () => {
                                 যাতে{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>
@@ -562,7 +562,7 @@ const TermsAndConditions = () => {
                                 সন্দেহজনক কার্যকলাপ শনাক্ত করার ক্ষেত্রে,{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -570,7 +570,7 @@ const TermsAndConditions = () => {
                                 ভবিষ্যতের আদেশ বাতিল করার অধিকার সংরক্ষণ করে।{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -594,15 +594,15 @@ const TermsAndConditions = () => {
                                 পারে:
                             </p>
                             <ul className="grid gap-3 mt-3 ml-8">
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     <div>
                                         গ্রাহক{' '}
                                         <Link
                                             href="/"
-                                            className="text-blue-600"
+                                            className="inline-block font-semibold"
                                         >
                                             abayaa.shop
                                         </Link>{' '}
@@ -610,41 +610,41 @@ const TermsAndConditions = () => {
                                         উত্তর দেয় না
                                     </div>
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     পেমেন্টের বিশদ যাচাইয়ের সময় গ্রাহক
                                     পর্যাপ্ত নথি তৈরি করতে ব্যর্থ হন
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     অন্য গ্রাহকের ফোন/ইমেলের অপব্যবহার
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     গ্রাহক অবৈধ ইমেল এবং ফোন নম্বর ব্যবহার করে।
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     গ্রাহক ভুল পণ্য ফেরত দেন
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     গ্রাহক একটি অর্ডারের জন্য অর্থ প্রদান করতে
                                     অস্বীকার করে
                                 </li>
-                                <li className="flex items-start gap-2 md:gap-4 text-base font-normal text-gray-600">
+                                <li className="flex items-start gap-2 text-base font-normal text-gray-600 md:gap-4">
                                     <p>
-                                        <span className="inline-block w-2 h-2 md:mt-2 bg-gray-900 rounded-full"></span>
+                                        <span className="inline-block w-2 h-2 bg-gray-900 rounded-full md:mt-2"></span>
                                     </p>
                                     গ্রাহক যে কোনো অর্ডারের জন্য ছিনতাইয়ের সাথে
                                     জড়িত
@@ -658,7 +658,7 @@ const TermsAndConditions = () => {
                             <p className="text-base font-normal text-gray-600">
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -686,7 +686,7 @@ const TermsAndConditions = () => {
                             <p className="text-base font-normal text-gray-600">
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -694,7 +694,7 @@ const TermsAndConditions = () => {
                                 তৈরি করা হয়। এর অর্থ হল ক্ষতির ঝুঁকি{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -710,7 +710,7 @@ const TermsAndConditions = () => {
                             <p className="text-base font-normal text-gray-600">
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -742,7 +742,7 @@ const TermsAndConditions = () => {
                             <p className="text-base font-normal text-gray-600">
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -763,7 +763,7 @@ const TermsAndConditions = () => {
                                 যদি আপনি বা{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -771,7 +771,7 @@ const TermsAndConditions = () => {
                                 করে দেন,{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}
@@ -780,7 +780,7 @@ const TermsAndConditions = () => {
                                 জন্য{' '}
                                 <Link
                                     href="/"
-                                    className="text-blue-600"
+                                    className="inline-block font-semibold"
                                 >
                                     abayaa.shop
                                 </Link>{' '}

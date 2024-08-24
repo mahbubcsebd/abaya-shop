@@ -1,18 +1,26 @@
 'use client';
 
+import whatsapp from "@/app/assets/icons/whatsapp.svg";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { Poppins } from 'next/font/google';
 import { usePathname } from 'next/navigation';
 import { useEffect, useReducer } from 'react';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Footer from './components/Footer';
-import Header from './components/Header';
 import { ProductContext } from './context/cartContext';
 import { ScrollProvider } from "./context/scrollContext";
-import './globals.css';
 import { cartReducer, initialState } from './reducer/CartReducer';
 import { SearchProvider } from './reducer/SearchContext';
+
+
+import FacebookChatPlugin from './components/FacebookChatPlugin';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import ScrollToTop from './components/ScrollToTop';
+
+import Image from "next/image";
+import Link from "next/link";
+import 'react-toastify/dist/ReactToastify.css';
+import './globals.css';
 
 const poppins = Poppins({
     weight: ['100', '200', '300', '400', '500', '600', '700', '800', '800'],
@@ -37,7 +45,7 @@ export default function RootLayout({ children }) {
 
     return (
         <html lang="en">
-            <GoogleTagManager gtmId="GTM-TJDRPB6Q"/>
+            <GoogleTagManager gtmId="GTM-TLN5QLJW" />
             <body className={poppins.className}>
                 <ProductContext.Provider value={{ state, dispatch }}>
                     <ScrollProvider>
@@ -45,6 +53,22 @@ export default function RootLayout({ children }) {
                             {pathname !== '/order-successfull' && <Header />}
                             {children}
                             {pathname !== '/order-successfull' && <Footer />}
+                            <ScrollToTop />
+
+                            <div className="fixed z-50 flex gap-2 bottom-10 right-4">
+                                <Link
+                                    className="overflow-hidden w-9 h-9"
+                                    target="_blank"
+                                    href="https://wa.me/1886225492"
+                                >
+                                    <Image
+                                        className="w-full h-full"
+                                        src={whatsapp}
+                                        alt="whatsapp"
+                                    />
+                                </Link>
+                                <FacebookChatPlugin />
+                            </div>
                             <ToastContainer />
                         </SearchProvider>
                     </ScrollProvider>

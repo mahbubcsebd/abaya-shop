@@ -13,7 +13,6 @@ import { cartReducer, initialState } from './reducer/CartReducer';
 import { SearchProvider } from './reducer/SearchContext';
 
 
-import FacebookChatPlugin from './components/FacebookChatPlugin';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import ScrollToTop from './components/ScrollToTop';
@@ -56,7 +55,7 @@ export default function RootLayout({ children }) {
                             {pathname !== '/order-successfull' && <Footer />}
                             <ScrollToTop />
 
-                            <div className="fixed z-50 flex gap-2 bottom-10 right-4">
+                            <div className="fixed z-[99999999] grid gap-2 bottom-10 md:bottom-[85px] right-4">
                                 <Link
                                     className="overflow-hidden w-9 h-9"
                                     target="_blank"
@@ -79,7 +78,6 @@ export default function RootLayout({ children }) {
                                         alt="messanger"
                                     />
                                 </Link>
-                                <FacebookChatPlugin />
                             </div>
                             <ToastContainer />
                         </SearchProvider>

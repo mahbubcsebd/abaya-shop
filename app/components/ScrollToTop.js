@@ -27,11 +27,11 @@ function ScrollToTop() {
     }, []);
 
     return (
-        <div className="fixed right-10 bottom-20 z-[999999999]">
+        <div className="fixed right-4 bottom-10 z-[999999999] hidden md:block">
             {showScroll && (
                 <button
                     onClick={scrollToTop}
-                    className="flex items-center justify-center w-10 h-10 text-xl text-white bg-[#797979] rounded-full shadow"
+                    className="flex items-center justify-center w-9 h-9 text-xl text-white bg-[#797979] rounded-full shadow"
                 >
                     <LuArrowUpFromLine />
                 </button>
